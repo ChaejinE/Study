@@ -1,0 +1,10 @@
+version: '3'
+services:
+  app1:
+    build:
+      context: ./myDocker
+      dockerfile: Dockerfile.edu
+  app2:
+    build:
+      context: ./myDocker
+      dockerfile: Dockerfile.edu

@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app1:
+    build:
+      context: ./myDocker
+      dockerfile: Dockerfile.edu
+    networks:
+      - our_net
+  app2:
+    build:
+      context: ./myDocker
+      dockerfile: Dockerfile.edu
+    networks:
+      - our_net
+
+networks:
+  our_net:
+    driver: bridge

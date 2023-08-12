@@ -1,0 +1,41 @@
+version: '3'
+services:
+  app1:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        touch /mnt/app1file && ls /mnt
+    volumes:
+      - ./shared_folder:/mnt
+  app2:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    depends_on:
+      - app1
+    command:
+      - |
+        touch /mnt/app2file && ls /mnt
+    volumes:
+      - ./shared_folder:/mnt
+  app3:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        touch /mnt/app3file && ls /mnt
+    volumes:
+      - shared_volume:/mnt/app3
+  app4:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    depends_on:
+      - app3
+    command:
+      - |
+        touch /mnt/app4file && ls /mnt
+    volumes:
+      - shared_volume:/mnt/app4
+
+volumes:
+  shared_volume:

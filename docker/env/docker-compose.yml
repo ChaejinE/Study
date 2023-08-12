@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app1:
+    image: python:3.9-slim
+    env_file:
+      - .envLOTTO
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        echo app1 && env | grep MYNAME
+  app2:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        echo app2 && env | grep MYNAME
+  app3:
+    image: python:3.9-slim
+    entrypoint: [ "sh", "-c" ]
+    environment:
+      - MYNAMEAPP3=LUKE
+    command:
+      - |
+        echo app3 && env | grep MYNAME
