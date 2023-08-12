@@ -12,7 +12,7 @@
 | [DBs](https://github.com/ChaejinE/Study/wiki#db) | [url](https://github.com/ChaejinE/Study/tree/main/db) |
 | [AWS](https://github.com/ChaejinE/Study/wiki#aws) | - |
 | [Docker](https://github.com/ChaejinE/Study/wiki#docker) | [url](https://github.com/ChaejinE/Study/tree/main/docker) |
-| [Helm](https://github.com/ChaejinE/Study/wiki#docker) | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
+| [Helm](https://github.com/ChaejinE/Study/wiki#helm) | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
 | [Deep Learning](https://github.com/ChaejinE/Study/wiki#deep-learning) | [url](https://github.com/ChaejinE/Study/tree/main/deep-learning) |
 
 </div>
