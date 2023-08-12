@@ -1,0 +1,8 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY . .
+RUN pip install --upgrade pip
+RUN pip install fastapi "uvicorn[standard]" alembic sqlalchemy "passlib[bcrypt]" "pydantic[email]" \
+    python-multipart "python-jose[cryptography]" psycopg2-binary black 
+EXPOSE 8000
