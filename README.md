@@ -5,14 +5,14 @@
 | Title | Code | 
 |  ---  | --- |
 | [Kubernetes](https://github.com/ChaejinE/Study/wiki#kubernetes) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
-| [Node JS]() | [url](https://github.com/ChaejinE/Study/tree/main/nodejs) |
-| [Nginx]() | [url](https://github.com/ChaejinE/Study/tree/main/nginx) |
-| [FastAPI]() | [url](https://github.com/ChaejinE/Study/tree/main/fastapi) |
-| [Elastic Search]() | [url](https://github.com/ChaejinE/Study/tree/main/elastic-search) |
-| [DBs]() | [url](https://github.com/ChaejinE/Study/tree/main/db) |
-| [AWS]() | - |
-| [Docker]() | [url](https://github.com/ChaejinE/Study/tree/main/docker) |
-| [Helm]() | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
-| [Deep Learning]() | [url](https://github.com/ChaejinE/Study/tree/main/deep-learning) |
+| [Node JS](https://github.com/ChaejinE/Study/wiki#nginx) | [url](https://github.com/ChaejinE/Study/tree/main/nodejs) |
+| [Nginx](https://github.com/ChaejinE/Study/wiki#nodejs) | [url](https://github.com/ChaejinE/Study/tree/main/nginx) |
+| [FastAPI](https://github.com/ChaejinE/Study/wiki#fastapi) | [url](https://github.com/ChaejinE/Study/tree/main/fastapi) |
+| [Elastic Search](https://github.com/ChaejinE/Study/wiki#elastic-search) | [url](https://github.com/ChaejinE/Study/tree/main/elastic-search) |
+| [DBs](https://github.com/ChaejinE/Study/wiki#db) | [url](https://github.com/ChaejinE/Study/tree/main/db) |
+| [AWS](https://github.com/ChaejinE/Study/wiki#aws) | - |
+| [Docker](https://github.com/ChaejinE/Study/wiki#docker) | [url](https://github.com/ChaejinE/Study/tree/main/docker) |
+| [Helm](https://github.com/ChaejinE/Study/wiki#docker) | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
+| [Deep Learning](https://github.com/ChaejinE/Study/wiki#deep-learning) | [url](https://github.com/ChaejinE/Study/tree/main/deep-learning) |
 
 </div>
