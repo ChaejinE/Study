@@ -4,7 +4,7 @@
   
 | Title | Code | 
 |  ---  | --- |
-| [Kubernetes]() | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
+| [Kubernetes](https://github.com/ChaejinE/Study/wiki#kubernetes) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
 | [Node JS]() | [url](https://github.com/ChaejinE/Study/tree/main/nodejs) |
 | [Nginx]() | [url](https://github.com/ChaejinE/Study/tree/main/nginx) |
 | [FastAPI]() | [url](https://github.com/ChaejinE/Study/tree/main/fastapi) |
