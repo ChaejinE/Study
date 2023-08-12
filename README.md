@@ -2,19 +2,6 @@
   
 # 🔖 STUDY
 
-<table border="1" align="center">
-<th>테이블</th>
-<th>만들기</th>
-<tr><!-- 첫번째 줄 시작 -->
-    <td>첫번째 칸</td>
-    <td>두번째 칸</td>
-</tr><!-- 첫번째 줄 끝 -->
-<tr><!-- 두번째 줄 시작 -->
-    <td>첫번째 칸</td>
-    <td>두번째 칸</td>
-</tr><!-- 두번째 줄 끝 -->
-</table>
-    
 | Title | Code | 
 |  ---  | --- |
 | [Kubernetes](https://github.com/ChaejinE/Study/blob/main/kubernetes/README.md#kubernetes) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
@@ -28,7 +15,5 @@
 | [Helm](https://github.com/ChaejinE/Study/blob/main/helm/README.md#helm) | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
 | [Deep Learning](https://github.com/ChaejinE/Study/blob/main/deep-learning/README.md#deep-learning) | [url](https://github.com/ChaejinE/Study/tree/main/deep-learning) |
 | [Coding Test](https://github.com/ChaejinE/Study/blob/main/coding-test/README.md#coding-test) | [url](https://github.com/ChaejinE/Study/tree/main/coding-test) |
-
-</div>
 
 </div>
