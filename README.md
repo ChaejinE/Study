@@ -14,6 +14,6 @@
 | [Docker](https://github.com/ChaejinE/Study/blob/main/docker/README.md#docker) | [url](https://github.com/ChaejinE/Study/tree/main/docker) |
 | [Helm](https://github.com/ChaejinE/Study/blob/main/helm/README.md#helm) | [url](https://github.com/ChaejinE/Study/tree/main/helm) |
 | [Deep Learning](https://github.com/ChaejinE/Study/blob/main/deep-learning/README.md#deep-learning) | [url](https://github.com/ChaejinE/Study/tree/main/deep-learning) |
-| [Coding Test](https://github.com/ChaejinE/Study/tree/main/coding-test#coding-test) | [url](https://github.com/ChaejinE/Study/tree/main/coding-test) |
+| [Coding Test](https://github.com/ChaejinE/Study/blob/main/coding-test/README.md#coding-test) | [url](https://github.com/ChaejinE/Study/tree/main/coding-test) |
 
 </div>
