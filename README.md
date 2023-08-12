@@ -1,7 +1,20 @@
 <div align="center">
   
 # 🔖 STUDY
-  
+
+<table border="1">
+<th>테이블</th>
+	<th>만들기</th>
+	<tr><!-- 첫번째 줄 시작 -->
+	    <td>첫번째 칸</td>
+	    <td>두번째 칸</td>
+	</tr><!-- 첫번째 줄 끝 -->
+	<tr><!-- 두번째 줄 시작 -->
+	    <td>첫번째 칸</td>
+	    <td>두번째 칸</td>
+	</tr><!-- 두번째 줄 끝 -->
+</table>
+
 | Title | Code | 
 |  ---  | --- |
 | [Kubernetes](https://github.com/ChaejinE/Study/blob/main/kubernetes/README.md#kubernetes) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
