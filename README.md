@@ -4,7 +4,7 @@
   
 | Title | Code | 
 |  ---  | --- |
-| [Kubernetes](https://github.com/ChaejinE/Study/blob/main/helm/README.md#helm) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
+| [Kubernetes](https://github.com/ChaejinE/Study/blob/main/kubernetes/README.md#kubernetes) | [url](https://github.com/ChaejinE/Study/tree/main/kubernetes) |
 | [Node JS](https://github.com/ChaejinE/Study/tree/main/nodejs#nodejs) | [url](https://github.com/ChaejinE/Study/tree/main/nodejs) |
 | [Nginx](https://github.com/ChaejinE/Study/blob/main/nginx/README.md#nginx) | [url](https://github.com/ChaejinE/Study/tree/main/nginx) |
 | [FastAPI](https://github.com/ChaejinE/Study/blob/main/elastic-search/README.md#elastic-search) | [url](https://github.com/ChaejinE/Study/tree/main/fastapi) |
