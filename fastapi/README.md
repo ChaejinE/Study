@@ -1,1 +1,15 @@
-# fastapi-basic
+# FastAPI
+## 📝 Pybo Wikibooks
+### [0.-Project-Architecture](https://github.com/ChaejinE/Study/wiki/0.-Project-Architecture)
+### [1.-Database-Management](https://github.com/ChaejinE/Study/wiki/1.-Database-Management)
+### [2.-Dependency-Injection](https://github.com/ChaejinE/Study/wiki/2.-Dependency-Injection)
+### [3.-Question-List-API](https://github.com/ChaejinE/Study/wiki/3.-Question-List-API)
+### [4.-Schema](https://github.com/ChaejinE/Study/wiki/4.-Schema)
+### [5.-CRUD](https://github.com/ChaejinE/Study/wiki/5.-CRUD)
+### [6.-Pagination](https://github.com/ChaejinE/Study/wiki/6.-Pagination)
+### [7.-회원가입](https://github.com/ChaejinE/Study/wiki/7.-회원가입)
+### [8.-Login-API](https://github.com/ChaejinE/Study/wiki/8.-Login-API)
+### [9.-글쓴이-저장하기](https://github.com/ChaejinE/Study/wiki/9.-글쓴이-저장하기)
+### [10.-Frontend-Server-Build](https://github.com/ChaejinE/Study/wiki/10.-Frontend-Server-Build)
+### [11.-Nginx](https://github.com/ChaejinE/Study/wiki/11.-Nginx)
+### [12.-SSL](https://github.com/ChaejinE/Study/wiki/12.-SSL)
