@@ -1,6 +1,9 @@
 <div align="center">
   
 # 🔖 STUDY
+[![Notion Badge](https://img.shields.io/badge/-Notion-000000?style=flat-square&logo=notion&logoColor=white&link=https://cjlotto.notion.site/b8bd13699bee4d51a4103d9c31152cfe?pvs=4/)](https://cjlotto.notion.site/b8bd13699bee4d51a4103d9c31152cfe?pvs=4)
+[![Velog Badge](https://img.shields.io/badge/-Velog-20C997?style=flat-square&logo=velog&logoColor=white&link=https://velog.io/@lottocomeon/)](https://velog.io/@lottocomeon)
+
 
 | Title | Code | 
 |  ---  | --- |
