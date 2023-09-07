@@ -1,0 +1,11 @@
+name : Private PASSWORD
+
+on : [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print Password
+      run: echo ${{ secrets.PASSWORD }}
