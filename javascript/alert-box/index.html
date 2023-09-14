@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="alert-box" id="alert">
+        <p id="title"> 알림창입니다. </p>
+        <button id="alert-close">닫기</button>
+    </div>
+    
+    <button onclick="setAlert('아이디 입력해주세요.', 'block')">버튼1</button>
+    <button onclick="setAlert('비밀번호 입력해주세요.', 'block')">버튼2</button>
+
+    <script>
+        document.getElementById("alert-close").addEventListener('mouseover', function() {
+            setAlert('', "none");
+        })
+
+        function setAlert(text, attribute) {
+            document.getElementById("title").innerHTML = text;
+            document.getElementById("alert").style.display = attribute;
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
