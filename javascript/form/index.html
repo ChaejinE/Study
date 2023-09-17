@@ -35,9 +35,17 @@
             document.getElementsByClassName("black-bg")[0].classList.remove("show-modal");
         })
 
-        document.getElementById("submit-btn").addEventListener("click", function() {
-            if (document.querySelector("#userID").innerHTML == '' || document.querySelector("#userPassword").innerHTML == '') {
+        document.getElementById("userID").addEventListener("change", function() {
+            
+        })
+
+        document.getElementById("submit-btn").addEventListener("click", function(e) {
+            if (document.querySelector("#userID").value == '' || document.querySelector("#userPassword").value == '') {
+                e.preventDefault();
                 alert("공백");
+            } else if (document.querySelector("#userPassword").value.length < 6) {
+                e.preventDefault();
+                alert("비밀번호를 6자 이상 입력해주세요")
             }
         })
 
