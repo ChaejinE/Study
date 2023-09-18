@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="overflow:hidden">
+        <div class="slide-container">
+            <div class="slide-box">
+                <img src="car1.png">
+            </div>
+            <div class="slide-box">
+                <img src="car2.png">
+            </div>
+            <div class="slide-box">
+                <img src="car3.png">
+            </div>
+        </div>
+    </div>
+
+    <button class="slide-1">1</button>
+    <button class="slide-2">2</button>
+    <button class="slide-3">3</button>
+    <button class="slide-next">다음</button>
+
+    <script>
+        var current_carousel = 0;
+        var num_carousel = 2;
+
+        document.querySelector(".slide-1").addEventListener("click", function() {
+            current_carousel = 0
+            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+        })
+        document.querySelector(".slide-2").addEventListener("click", function() {
+            current_carousel = 1;
+            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+        })
+        document.querySelector(".slide-3").addEventListener("click", function() {
+            current_carousel = 2;
+            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+        })
+        
+        document.querySelector(".slide-next").addEventListener("click", function() {
+            if (current_carousel >= num_carousel) {
+                current_carousel = 0;
+            } else {
+                current_carousel++;
+            }
+
+            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+        })
+
+    </script>
+</body>
+</html>
