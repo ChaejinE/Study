@@ -1,0 +1,18 @@
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    transition: all 1s;
+}
+
+.list-group {
+    display: none;
+}
+
+.show {
+    display: block;
+}
