@@ -40,12 +40,17 @@
         })
 
         document.getElementById("submit-btn").addEventListener("click", function(e) {
-            if (document.querySelector("#userID").value == '' || document.querySelector("#userPassword").value == '') {
+            var userID = document.querySelector("#userID").value;
+            var userPassword = document.querySelector("#userPassword").value;
+            if (userID === '' || userPassword === '') {
                 e.preventDefault();
                 alert("공백");
-            } else if (document.querySelector("#userPassword").value.length < 6) {
+            } else if (userPassword.length < 6) {
                 e.preventDefault();
                 alert("비밀번호를 6자 이상 입력해주세요")
+            } else if (!/\S+@\S+\.\S+/.test(userID)) {
+                e.preventDefault();
+                alert("email 형식아님")
             }
         })
 
