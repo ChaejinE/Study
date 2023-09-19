@@ -25,6 +25,14 @@
             document.getElementsByClassName("black-bg")[0].classList.remove("show-modal");
         })
 
+        document.querySelector(".black-bg").addEventListener("click", function(e) {
+            if (e.target === document.querySelector(".black-bg")) {
+                document.querySelector(".black-bg").classList.remove("show-modal");
+            } else {
+                console.log("Event Bubbling")
+            }
+        })
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
