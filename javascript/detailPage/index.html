@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="card-group container">
+        <div class="card">
+          <img src="https://via.placeholder.com/600">
+          <div class="card-body">
+            <h5>Card title</h5>
+            <p>가격 : 70000</p>
+            <button class="btn btn-danger">주문하기</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/600">
+          <div class="card-body">
+            <h5>Card title</h5>
+            <p>가격 : 70000</p>
+            <button class="btn btn-danger">주문하기</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/600">
+          <div class="card-body">
+            <h5>Card title</h5>
+            <p>가격 : 70000</p>
+            <button class="btn btn-danger">주문하기</button>
+          </div>
+        </div>
+    </div>
+
+    <form class="container my-5 form-group">
+        <p>상품선택</p>
+        <select class="form-select mt-2" id="products">
+            <option>모자</option>
+            <option>셔츠</option>
+            <option>바지</option>
+        </select>
+
+        <select class="form-select mt-2 hide size" id="shirt-size">
+            <option>95</option>
+            <option>100</option>
+        </select>
+    </form>
+    
+    <script>
+        var products = [
+            { id : 0, price : 70000, title : 'Blossom Dress' },
+            { id : 1, price : 50000, title : 'Springfield Shirt' },
+            { id : 2, price : 60000, title : 'Black Monastery' }
+        ];
+
+        var cardTitles = document.querySelectorAll(".card-body h5");
+        var cardPrices = document.querySelectorAll(".card-body p");
+        for (let idx = 0; idx < products.length; ++idx) {
+            cardTitles[idx].innerHTML = products[idx].title;
+            cardPrices[idx].innerHTML = "가격 : " + products[idx].price;
+        }
+
+        document.querySelector("#products").addEventListener("input", function() {
+            $(".size").addClass("hide");
+
+            if (this.value === "셔츠") {
+                const shirts = [95, 100, 105];
+                document.querySelector("#shirt-size").classList.remove("hide");
+            } else if (this.value === "바지") {
+                const pants = [28, 30, 32]; // Server에서 받아온 데이터라고 가정
+                document.querySelector("#shirt-size").innerHTML = "";
+                pants.forEach(function(data) {
+                    const pantsSize = `<option>${data}</option>`;
+                    document.querySelector("#shirt-size").insertAdjacentHTML("beforeend", pantsSize);
+                })
+                document.querySelector("#shirt-size").classList.remove("hide");
+            }
+        })
+
+    </script> 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
