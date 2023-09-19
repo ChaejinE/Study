@@ -3,15 +3,26 @@
 var button = $(".tab-button");
 var content = $(".tab-content");
 
-for (let i = 0; i < button.length; ++i) {
-    OpenTab(i);
-}
+// for (let i = 0; i < button.length; ++i) {
+//     OpenTab(i);
+// }
 
-function OpenTab(index) {
+document.querySelector(".list").addEventListener("click", function(e) {
+    OpenTab2(parseInt(e.target.dataset.id));
+})
+
+function OpenTab1(index) {
     button.eq(index).on("click", function() {
         button.removeClass("orange");
         button.eq(index).addClass("orange");
         content.removeClass("show");
         content.eq(index).addClass("show");
     })
+}
+
+function OpenTab2(index) {
+    button.removeClass("orange");
+    button.eq(index).addClass("orange");
+    content.removeClass("show");
+    content.eq(index).addClass("show");
 }
