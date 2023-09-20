@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+        </div>
+    </div> 
+
+    <div class="container">
+        <button class="btn btn-danger">더보기</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+
+        const products = [
+            { id : 0, price : 70000, title : 'Blossom Dress' },
+            { id : 1, price : 50000, title : 'Springfield Shirt' },
+            { id : 2, price : 60000, title : 'Black Monastery' }
+        ];
+        addCard(products);
+        
+        const maxProductsCount = 2; 
+        let count = 1;
+        document.querySelector(".btn").addEventListener("click", function() {
+            $.get(`https://codingapple1.github.io/js/more${count}.json`)
+                .done((products) => {
+                    addCard(products);
+                    ++count;
+
+                    if (count > maxProductsCount) {
+                        document.querySelector(".btn").style.display = "none";
+                    }
+                })
+        })
+
+        function addCard(products) {
+            let cardTempalte = '';
+            for (let i = 0; i < products.length; ++i){
+                cardTempalte = 
+                `
+                <div class="col-sm-4">
+                    <img src="https://via.placeholder.com/600" class="w-100">
+                    <h5>${products[i].title}</h5>
+                    <p>가격 : ${products[i].price}</p>
+                </div>
+                `;
+                document.querySelector(".row").insertAdjacentHTML("beforeend", cardTempalte);
+            }
+        }
+        
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
