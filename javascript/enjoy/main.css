@@ -13,3 +13,19 @@
     position: sticky;
     top: 100px;
 }
+
+.card-backgroud {
+    height: 3000px;
+    margin-bottom: 1600px;
+}
+
+.card-box img {
+    display: block;
+    margin: auto;
+    max-width: 80%;
+}
+
+.card-box {
+    position: sticky;
+    top: 40;
+}
