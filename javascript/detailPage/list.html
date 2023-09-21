@@ -77,16 +77,32 @@
             for (let i = 0; i < products.length; ++i){
                 cardTempalte = 
                 `
-                <div class="col-sm-4">
+                <div class="col-sm-4 card">
                     <img src="https://via.placeholder.com/600" class="w-100">
                     <h5>${products[i].title}</h5>
                     <p>가격 : ${products[i].price}</p>
+                    <button id="cart">구매</button>
                 </div>
                 `;
                 document.querySelector(".row").insertAdjacentHTML("beforeend", cardTempalte);
             }
         }
         
+    </script>
+
+    <script>
+        $(".card").on("click", function(e) {
+            let target = $(e.target);
+            let title = target.siblings("h5").text();
+            let producstInCart = [];
+            
+            if (localStorage.getItem("cart")) {
+                producstInCart = JSON.parse(localStorage.getItem("cart"));
+            }
+
+            producstInCart.push(title);
+            localStorage.setItem("cart", JSON.stringify(producstInCart));
+        })
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
