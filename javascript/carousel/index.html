@@ -26,32 +26,69 @@
     <button class="slide-next">다음</button>
 
     <script>
-        var current_carousel = 0;
-        var num_carousel = 2;
+        var currentCarousel = 0;
+        var maxCarouselIndex = 2;
 
         document.querySelector(".slide-1").addEventListener("click", function() {
-            current_carousel = 0
-            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+            currentCarousel = 0
+            document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
         })
         document.querySelector(".slide-2").addEventListener("click", function() {
-            current_carousel = 1;
-            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+            currentCarousel = 1;
+            document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
         })
         document.querySelector(".slide-3").addEventListener("click", function() {
-            current_carousel = 2;
-            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+            currentCarousel = 2;
+            document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
         })
         
         document.querySelector(".slide-next").addEventListener("click", function() {
-            if (current_carousel >= num_carousel) {
-                current_carousel = 0;
+            if (currentCarousel >= maxCarouselIndex) {
+                currentCarousel = 0;
             } else {
-                current_carousel++;
+                currentCarousel++;
             }
 
-            document.querySelector(".slide-container").style.transform = `translateX(-${current_carousel}00vw)`;
+            document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
         })
 
+        var startX = 0;
+        var isMounDown = false;
+        document.querySelectorAll(".slide-box").forEach(function(slideBox) {
+            slideBox.setAttribute("draggable", false);
+            slideBox.addEventListener("touchstart", function(e) {
+                startX = e.touches[0].clientX;
+                isMounDown = true;
+            })
+
+            slideBox.addEventListener("touchend", function(e) {
+                isMounDown = false;
+                document.querySelector(".slide-container").style.transition = "all 0.5s";
+                if (e.changedTouches[0].clientX - startX <= -1) {
+                    if (currentCarousel < maxCarouselIndex) {
+                        currentCarousel++;
+                    }
+                    document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
+                } else if (e.changedTouches[0].clientX - startX >= 1) {
+                    if (currentCarousel > 0) {
+                        currentCarousel--;
+                    }
+                    document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
+                } else { 
+                    document.querySelector(".slide-container").style.transform = `translateX(-${currentCarousel}00vw)`;
+                }
+                setTimeout(() => {
+                    document.querySelector(".slide-container").style.transition = "none";
+                }, 500);
+                console.log(`drag : ${e.changedTouches[0].clientX - startX}, carousel : ${currentCarousel}`)
+            })
+
+            slideBox.addEventListener("touchmove", function(e) {
+                if (isMounDown) {
+                    document.querySelector(".slide-container").style.transform = `translateX(${e.clientX - startX}px)`;
+                }
+            })
+        })
     </script>
 </body>
 </html>
