@@ -13,13 +13,17 @@
     </div> 
 
     <div class="container">
-        <button class="btn btn-danger">더보기</button>
+            <button class="btn btn-danger">더보기</button>
+            <button class="btn btn-danger" id="price-sort">가격순 정렬</button>
+            <button class="btn btn-danger" id="title-sort">상품명 역순 정렬</button>
+            <button class="btn btn-danger" id="price-filter">6 만원 이하 상품만 보기</button>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
 
-        const products = [
+        var products = [
             { id : 0, price : 70000, title : 'Blossom Dress' },
             { id : 1, price : 50000, title : 'Springfield Shirt' },
             { id : 2, price : 60000, title : 'Black Monastery' }
@@ -32,12 +36,41 @@
             $.get(`https://codingapple1.github.io/js/more${count}.json`)
                 .done((products) => {
                     addCard(products);
+                    products.push(products);
                     ++count;
 
                     if (count > maxProductsCount) {
                         document.querySelector(".btn").style.display = "none";
                     }
                 })
+        })
+
+        document.querySelector("#price-sort").addEventListener("click", function() {
+            products.sort(function(a, b) {
+                return a.price - b.price; // 음수면 왼쪽, 양수면 오른쪽으로 정렬
+            })
+            document.querySelector(".row").innerHTML = '';
+            addCard(products);
+        })
+
+        document.querySelector("#title-sort").addEventListener("click", function() {
+            products.sort(function(a, b) {
+                if (a.title < b.title) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            })
+            document.querySelector(".row").innerHTML = '';
+            addCard(products);
+        })
+
+        document.querySelector("#price-filter").addEventListener("click", function() {
+            const filteredProducts = products.filter(function(element) {
+                return element.price <= 60000;
+            })
+            document.querySelector(".row").innerHTML = '';
+            addCard(filteredProducts);
         })
 
         function addCard(products) {
