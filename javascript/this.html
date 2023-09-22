@@ -1,0 +1,19 @@
+<div></div>
+<script>
+    console.log(this);
+
+    function test() {
+        console.log(this);
+    }
+    test();
+
+    var testObj = {
+        myObj : {
+                myNewFunc : () => {
+                console.log( this);
+            }
+        }
+    }
+    testObj.myObj.myNewFunc();
+
+</script>
