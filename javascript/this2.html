@@ -1,0 +1,51 @@
+<div></div>
+<button id="btn">버튼</button>
+
+
+<script>
+    // Constructor
+    var a = {};
+
+    function func() {
+        this.name = "Kim";
+    }
+
+    var newObj = new func();
+
+    // Event Listener
+
+    document.getElementById("btn").addEventListener("click", function(e) {
+        console.log(this); // e.currentTarget;
+        console.log(e.currentTarget)
+
+        var arr = [1, 2, 3];
+        arr.forEach(function(data) {
+            console.log(this);
+        })
+    })
+
+    // Object
+    var myObj = {
+        names: ["K", "G", "B"],
+        func: function() {
+            myObj.names.forEach(function() {
+                console.log(this);
+            })
+        }
+    }
+
+    myObj.func();
+
+    // Object - arrow
+    var myObj = {
+        names: ["K", "G", "B"],
+        func: function() {
+            console.log("상위 : ", this);
+            myObj.names.forEach(() => {
+                console.log("하위 : ", this);
+            })
+        }
+    }
+
+    myObj.func();
+</script>
