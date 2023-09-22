@@ -1,0 +1,40 @@
+<div></div>
+<button id="btn">버튼이에요</button>
+
+<script>
+    // 1.
+    var 사람 = { 
+        name: "손흥민", 
+        sayHi: function() {
+            console.log(`안녕 나는 ${this.name}`);
+        }
+    };
+
+    사람.sayHi()
+
+    // 2.
+    var func = function() {
+        let result = 0;
+        this.data.forEach((elem) => {
+            result += elem;
+        });
+
+        console.log(result);
+    };
+
+    var 자료 = {
+        data: [1, 2, 3, 4, 5],
+        전부더하기: func,
+    };
+
+    자료.전부더하기();
+
+    // 3.
+    document.getElementById("btn").addEventListener("click", function() {
+        setTimeout(() => {
+            console.log(this.innerHTML);
+        }, 1000);
+        
+    })
+
+</script>
