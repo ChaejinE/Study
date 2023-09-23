@@ -1,0 +1,12 @@
+<div></div>
+
+<script>
+    var pants = 30;
+    var socks = 100;
+
+    function process(strings, ...args) {
+        console.log(strings[1] + args[0] + " " + strings[0] + args[1]);
+    }
+
+    process`바지${pants} 양말${socks}`
+</script>
