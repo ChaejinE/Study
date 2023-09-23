@@ -1,0 +1,25 @@
+<div></div>
+
+<script>
+    function sum(a, b, c) {
+        console.log(a + b + c);
+    }
+
+    var arr = [10, 20, 30];
+    sum.apply(undefined, arr); // old
+    sum(...arr); // recent
+
+    var person = {
+        인사: function() {
+            console.log(`${this.name} 인사`);
+        },
+    }
+
+    var person2 = {
+        name: "Son",
+    }
+
+    person.인사.apply(person2, [1,2]);
+    person.인사.call(person2, 1, 2);
+
+</script>
