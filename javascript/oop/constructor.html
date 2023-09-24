@@ -1,0 +1,19 @@
+<div></div>
+
+<script>
+    function Machine(name, age) {
+        this.name = name;
+        this.age = age;
+        this.sayHi = function() {
+            console.log(`안녕하세요 ${this.name} 입니다.`);
+        }
+    }
+
+    var student = new Machine(name="손흥민", age=10);
+
+    console.log(student);
+    student.sayHi();
+
+    Machine.prototype.gender = "남";
+    
+</script>
