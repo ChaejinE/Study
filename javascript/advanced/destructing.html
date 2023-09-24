@@ -1,0 +1,22 @@
+<div></div>
+
+<script>
+    var arr = [2,3,4];
+
+    var [a, b, c = 10] = [2, 3];
+    console.log(`${a}, ${b}, ${c}`);
+
+    var { name, age } = { name : "Kim", age : 30 };
+
+    var name = "Park";
+    var age = 100;
+
+    var obj1 = { name, age };
+
+    function some({ name, age} ) {
+        console.log(name);
+        console.log(age);
+    }
+
+    some({name: "hi", age: 40});
+</script>
