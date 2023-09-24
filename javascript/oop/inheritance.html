@@ -1,0 +1,46 @@
+<div></div>
+
+<script>
+    // ES5
+    var parent = { name : "Kim", age : 50 };
+
+    var child = Object.create(parent);
+    child.age = 10;
+
+    class Myparent {
+        constructor() {
+            this.name = "Kim";
+        }
+
+        sayHi() {
+            console.log(`Hi ${this.name}`);
+        }
+    }
+
+    var child2 = new Myparent();
+
+    class GrandFather {
+        constructor(name) {
+            this.lastname = "Kim";
+            this.firstname = name;
+        }
+
+        sayHi() {
+            console.log(`Hi Im grandfather`);
+        }
+    }
+
+    class Father extends GrandFather {
+        constructor(name) {
+            super(name); // lastname, firstname
+            this.age = 50; // add new property
+        }
+        
+        sayHi() {
+            console.log(`Hi Im father`);
+            super.sayHi();
+        }
+    }
+
+    var Father1 = new Father("흥민");
+</script>
