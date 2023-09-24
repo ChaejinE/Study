@@ -1,0 +1,23 @@
+<div></div>
+
+<script>
+    class Person {
+        constructor() {
+            this.name = "Park";
+            this.age = 30;
+        }
+
+        get nextAge() {
+            return this.age + 1;
+        }
+
+        set setAge(age) {
+            this.age = parseInt(age);
+        }
+    }
+
+    var person = new Person();
+    console.log(person.nextAge);
+    person.setAge = 20;
+    console.log(person.nextAge);
+</script>
