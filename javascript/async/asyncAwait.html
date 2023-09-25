@@ -1,0 +1,22 @@
+<script>
+    async function add() {
+        var prom = new Promise(function(resolve, reject) {
+            var hardProcess = 1 + 1;
+            resolve();
+        })
+    }
+
+    try {
+        var result = await prom; // Pormise 성공/실패 판정나올 때까지 대기
+        console.log(result);
+    } catch {
+        console.log("err");
+    }
+    
+
+    /*
+    result.then(function() {
+        console.log("success")
+    })
+    */
+</script>
