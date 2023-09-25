@@ -1,0 +1,24 @@
+<body>
+    <custom-input name="pw"></custom-input>
+    
+    <script>
+        class Custom extends HTMLElement {
+            connectedCallback() {
+                // 정해져있는 method
+                let name = this.getAttribute("name");
+                this.innerHTML = `<label>${name} Input</label><input>`
+            }
+
+            static get observedAttributes() {
+                return ["name"];
+            }
+
+            attributeChangedCallback() {
+                let name = this.getAttribute("name");
+                this.innerHTML = `<label>${name} Input</label><input>`
+            }
+        }
+
+        customElements.define("custom-input", Custom)
+    </script>
+</body>
