@@ -1,0 +1,42 @@
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<img id="test" src="https://codingapple1.github.io/kona.jpg"> 
+
+<script>
+    var imgLoading = new Promise(function(resolve, reject) {
+        var img = document.querySelector("#test");
+        img.addEventListener("load", function() {
+            resolve();
+        })
+    
+        img.addEventListener("error", function() {
+            reject();
+        })
+    })
+
+    imgLoading.then(function() {
+        console.log("loading success");
+    }).catch(function() {
+        console.log("loading fail");
+    })
+
+    var restAPIPromise = RequstUsingAjax("https://codingapple1.github.io/hello.txt");
+
+    restAPIPromise.then(function(result) {
+        console.log(result);
+        return RequstUsingAjax("https://codingapple1.github.io/hello2.txt");
+    }).then(function(result) {
+        console.log(result);
+    }).catch(function(err) {
+        console.log(err);
+    })
+
+    function RequstUsingAjax(URL) {
+        return new Promise((resolve, reject) => {
+            $.get(URL)
+            .done(function(result) {
+                resolve(result);
+            });
+        })
+    }
+</script>
