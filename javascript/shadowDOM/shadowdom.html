@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>안넝</label>
+    <custom-input name="Email"></custom-input>
+
+    <template id="template1">
+        <label>Input</label><input>
+        <style>label {color : red }</style>
+    </template>
+    
+    <script>
+        class Custom extends HTMLElement {
+            connectedCallback() {
+                // 정해져있는 method
+                let name = this.getAttribute("name");
+                this.attachShadow({mode: "open"});
+                this.shadowRoot.append(template1.content.cloneNode(true));
+            }
+        }
+
+        customElements.define("custom-input", Custom)
+    </script>
+</body>
+</html>
