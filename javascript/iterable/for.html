@@ -1,0 +1,25 @@
+<script>
+    class Parent {
+
+    }
+
+    Parent.prototype.name = "Park";
+
+    var obj = new Parent();
+
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            console.log(obj[key]);
+        }
+    }
+
+    var arr = [2,3,4,5];
+
+    for (var data of arr) {
+        console.log(data);
+    }
+
+    for (var data of "adsfasdfasf") {
+        console.log(data);
+    }
+</script>
