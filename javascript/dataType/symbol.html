@@ -1,0 +1,21 @@
+<script>
+    var weight = Symbol("My secret weight");
+    var height = Symbol("My secret height");
+
+    var person = { name : "Kim" };
+    person[weight] = 100;
+    person[height] = 180;
+
+    for (var key in person) {
+        console.log(person[key]);
+    }
+
+    var a = Symbol("desc1");
+    var b = Symbol("desc1");
+    console.log(a === b); // false
+    
+    var c = Symbol.for("desc1");
+    var d = Symbol.for("desc1");
+    console.log(c === d); // true
+    
+</script>
