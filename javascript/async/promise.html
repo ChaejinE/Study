@@ -1,0 +1,15 @@
+<script>
+    var prom = new Promise(function(resolve, reject) {
+        var data = 2;
+        resolve(data); // 성공판정
+        /* reject(); // 실패판정 */
+    });
+
+    prom.then(function(result) {
+      console.log(result);
+    }).then(function() {
+
+    }).catch(function() {
+
+    })
+</script>
