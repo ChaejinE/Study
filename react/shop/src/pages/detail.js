@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
+import { Nav } from "react-bootstrap"
 
 function Detail(props) {
     let { id } = useParams();
@@ -8,6 +9,8 @@ function Detail(props) {
     })[0]
     let [alert, setAlert] = useState(false);
     let [isNumber, setIsNumber] = useState(true);
+    let [tab, setTab] = useState(0);
+
     id = parseInt(id);
 
     useEffect(() => {
@@ -37,8 +40,43 @@ function Detail(props) {
                     </div>
                 </div>
             </div>
+
+            <Nav onClick={(e) => { 
+                let eventKey = e.target.dataset.rrUiEventKey;
+                let index = eventKey.replace("link", "");
+                setTab(parseInt(index));
+                }} variant="tabs"  defaultActiveKey="link0">
+                <Nav.Item>
+                    <Nav.Link eventKey="link0">버튼0</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link1">버튼1</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link2">버튼2</Nav.Link>
+                </Nav.Item>
+            </Nav>
+
+            <TabContent tab={tab}/>
         </div> 
     )
 }
 
+function TabContent({tab}) {
+    let contents = [
+        <div> 내용 0 </div>,
+        <div> 내용 1 </div>,
+        <div> 내용 2 </div>
+    ]
+    // let result = null
+    // if (tab == 0) {
+    //     result = <div> 내용 0 </div>
+    // } else if (tab == 1) {
+    //     result = <div> 내용 1 </div>
+    // } else {
+    //     result = <div> 내용 2 </div>
+    // }
+
+    return contents[tab];
+}
 export default Detail
