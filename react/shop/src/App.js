@@ -1,25 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
+import { Nav, Navbar, Container} from 'react-bootstrap';
+import { Routes, Route, useNavigate, Outlet} from "react-router-dom";
+import data from "./data"
+import { useState } from "react";
+import Detail from './pages/detail';
+import Home from './pages/home';
 
 function App() {
+  let [shoes, setShoes] = useState(data);
+  let navigate = useNavigate();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar expand="lg" className="bg-body-tertiary">
+      <Container>
+        <Navbar.Brand onClick={() => { navigate("/"); }
+        }>Shoe Shop</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link onClick={(e) => { 
+                navigate("/cart");
+                e.stopPropagation(); 
+              }
+            }>Cart</Nav.Link>
+          </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Routes>
+        <Route path="/" element={<Home shoes={shoes}/>}></Route>
+        <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
+        <Route path="/cart" element={<div>장바구니페이지임</div>}/>
+      </Routes>
     </div>
   );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사정보</h4>
+      <Outlet></Outlet>
+    </div>
+  )
 }
 
 export default App;
