@@ -1,4 +1,5 @@
 import Card from "../utils/card";
+import axios from "axios";
 
 function Home(props) {
 
@@ -16,6 +17,20 @@ function Home(props) {
                     })
                 }
                 </div>
+
+                <button onClick={() => {
+                    axios.get("https://codingapple1.github.io/shop/data2.json")
+                        .then((res) => {
+                            let newData = res.data;
+                            let newShoes = [...props.shoes, ...newData];
+                            props.setShoes(newShoes);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }}>
+                    버튼
+                </button>
             </div>
         </>
     )

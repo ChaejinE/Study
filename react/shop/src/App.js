@@ -30,7 +30,7 @@ function App() {
       </Navbar>
 
       <Routes>
-        <Route path="/" element={<Home shoes={shoes}/>}></Route>
+        <Route path="/" element={<Home shoes={shoes} setShoes={setShoes}/>}></Route>
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
         <Route path="/cart" element={<div>장바구니페이지임</div>}/>
       </Routes>
