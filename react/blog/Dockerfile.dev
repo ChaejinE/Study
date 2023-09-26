@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18 as builder
 
 WORKDIR /app
-ENTRYPOINT ["npm", "start", "-P"]
+ENTRYPOINT ["/bin/bash", "-c", "npm install && npm start"]
