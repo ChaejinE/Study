@@ -2,10 +2,11 @@ import './App.css';
 import { Nav, Navbar, Container} from 'react-bootstrap';
 import { Routes, Route, useNavigate, Outlet} from "react-router-dom";
 import data from "./data"
-import { useState } from "react";
-import Detail from './pages/detail';
+import { lazy, Suspense, useState } from "react";
 import Home from './pages/home';
-import Cart from './pages/cart';
+
+const Detail = lazy(() => import('./pages/detail.js'));
+const Cart = lazy(() => import('./pages/cart.js'));
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -29,13 +30,16 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Routes>
-        <Route path="/" element={<Home shoes={shoes} setShoes={setShoes}/>}></Route>
-        <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="*" element={<div>404 Not Found</div>}/>
-      </Routes>
+      
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home shoes={shoes} setShoes={setShoes}/>}></Route>
+          <Route path="/detail/:id" element={
+            <Detail shoes={shoes}/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="*" element={<div>404 Not Found</div>}/>
+        </Routes>
+      </Suspense>
     </div>
   );
 }
