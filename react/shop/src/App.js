@@ -5,6 +5,7 @@ import data from "./data"
 import { useState } from "react";
 import Detail from './pages/detail';
 import Home from './pages/home';
+import Cart from './pages/cart';
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -32,7 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home shoes={shoes} setShoes={setShoes}/>}></Route>
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
-        <Route path="/cart" element={<div>장바구니페이지임</div>}/>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path="*" element={<div>404 Not Found</div>}/>
       </Routes>
     </div>

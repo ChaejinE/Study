@@ -1,10 +1,13 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap"
 import TabContent from "../utils/tab";
 import style from "./detail.module.css";
+import { addInCart } from "../store/itemSlice";
+import { useDispatch } from "react-redux";
 
 function Detail(props) {
+    let dispatch = useDispatch();
     let { id } = useParams();
     id = parseInt(id);
 
@@ -42,7 +45,9 @@ function Detail(props) {
                     <h4 className="pt-5">{shoe.title}</h4>
                     <p>{shoe.content}</p>
                     <p>{shoe.price}</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <button className="btn btn-danger" onClick={() => {
+                        dispatch(addInCart(shoe));
+                    }}>주문하기</button>
                     <div style={{marginTop: "4px"}}>
                         {
                             alert ? <div className="alert alert-warning">숫자만 쓰세요</div> : null
