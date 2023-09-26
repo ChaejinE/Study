@@ -33,6 +33,7 @@ function App() {
         <Route path="/" element={<Home shoes={shoes} setShoes={setShoes}/>}></Route>
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
         <Route path="/cart" element={<div>장바구니페이지임</div>}/>
+        <Route path="*" element={<div>404 Not Found</div>}/>
       </Routes>
     </div>
   );

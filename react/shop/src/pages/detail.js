@@ -1,24 +1,39 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap"
+import TabContent from "../utils/tab";
+import style from "./detail.module.css";
 
 function Detail(props) {
     let { id } = useParams();
+    id = parseInt(id);
+
     let shoe = props.shoes.filter((shoe) => {
         return shoe.id == id; 
     })[0]
     let [alert, setAlert] = useState(false);
     let [isNumber, setIsNumber] = useState(true);
     let [tab, setTab] = useState(0);
-
-    id = parseInt(id);
+    let [fade, setFade] = useState('');
 
     useEffect(() => {
         setAlert(!isNumber);
     }, [isNumber])
 
+    useEffect(() => {
+        console.log("fade");
+        let timer1 = setTimeout(() => {
+            setFade(style.detailMounted)
+        }, 10);
+
+        return () => {
+            clearTimeout(timer1);
+            setFade('');
+        }
+    }, [])
+
     return (
-        <div className="container">
+        <div className={`container ${style.detailInit} ${fade}`}>
             <div className="row">
                 <div className="col-md-6">
                     <img src={`https://codingapple1.github.io/shop/shoes${shoe.id+1}.jpg`} width="100%" />
@@ -62,21 +77,4 @@ function Detail(props) {
     )
 }
 
-function TabContent({tab}) {
-    let contents = [
-        <div> 내용 0 </div>,
-        <div> 내용 1 </div>,
-        <div> 내용 2 </div>
-    ]
-    // let result = null
-    // if (tab == 0) {
-    //     result = <div> 내용 0 </div>
-    // } else if (tab == 1) {
-    //     result = <div> 내용 1 </div>
-    // } else {
-    //     result = <div> 내용 2 </div>
-    // }
-
-    return contents[tab];
-}
 export default Detail
