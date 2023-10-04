@@ -5,5 +5,6 @@ COPY Pipfile* /fastapi/app
 RUN apt-get update
 RUN pip install --upgrade pipenv
 RUN pipenv install --dev --system --deploy
+EXPOSE 8000
 
 ENTRYPOINT [ "python", "main.py" ]
