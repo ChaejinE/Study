@@ -12,7 +12,7 @@ class Config:
     DEBUG: bool = False
     TEST_MODE: bool = False
     DB_URL: str = environ.get(
-        "DB_URL", "postgresql+asyncpg://postgres@localhost:5432/postgres"
+        "DB_URL", "postgresql+asyncpg://postgres:1234@db:5432/postgres"
     )
 
 

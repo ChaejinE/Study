@@ -1,16 +1,22 @@
-from sqlalchemy import Column, Integer, DateTime, func, Enum, String, Boolean
-from sqlalchemy.orm import Session, relationship
-from database.conn import Base, db
+from sqlalchemy import Integer, DateTime, Enum, String, Boolean
+from sqlalchemy.sql import func
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+
+from datetime import datetime
+
+Base = declarative_base()
 
 
 class BaseMixin:
-    id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(DateTime, nullable=False, default=func.utc_timestamp())
-    updated_at = Column(
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=datetime.utcnow
+    )
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=func.utc_timestamp(),
-        onupdate=func.utc_timestamp(),
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
     )
 
     def __init__(self):
@@ -28,30 +34,21 @@ class BaseMixin:
     def __hash__(self):
         return hash(self.id)
 
-    @classmethod
-    def create(cls, session: Session, auto_commit=False, **kwargs):
-        obj = cls()
-
-        for col in obj.all_columns():
-            col_name = col.name
-            if col_name in kwargs:
-                setattr(obj, col_name, kwargs.get(col_name))
-        session.add(obj)
-        session.flush()
-
-        if auto_commit:
-            session.commit()
-
-        return obj
-
 
 class User(Base, BaseMixin):
     __tablename__ = "users"
-    status = Column(Enum("active", "deleted", "blocked"), default="active")
-    email = Column(String(length=255), nullable=True)
-    pw = Column(String(length=2000), nullable=True)
-    name = Column(String(length=255), nullable=True)
-    phone_number = Column(String(length=20), nullable=True, unique=True)
-    profile_img = Column(String(length=1000), nullable=True)
-    sns_type = Column(Enum("FB", "G", "K"), nullable=True)
-    marketing_argree = Column(Boolean, nullable=True, default=True)
+
+    # status: Mapped[Enum] = mapped_column(
+    #     Enum("active", "deleted", "blocked"), default="active", name="user_status"
+    # )
+    email: Mapped[str] = mapped_column(String(length=255), nullable=True)
+    pw: Mapped[str] = mapped_column(String(length=2000), nullable=True)
+    name: Mapped[str] = mapped_column(String(length=255), nullable=True)
+    phone_number: Mapped[str] = mapped_column(
+        String(length=20), nullable=True, unique=True
+    )
+    profile_img: Mapped[str] = mapped_column(String(length=1000), nullable=True)
+    # sns_type: Mapped[Enum] = mapped_column(
+    #     Enum("FB", "G", "K"), nullable=True, name="sns_platform"
+    # )
+    marketing_agree: Mapped[bool] = mapped_column(Boolean, nullable=True, default=True)
