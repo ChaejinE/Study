@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from router import index
+from router import index, auth
 from event import app_handler
 
 import uvicorn
@@ -11,6 +11,7 @@ def create_main() -> FastAPI:
 
     # add router
     app.include_router(index.router)
+    app.include_router(auth.router)
 
     # add app event
     app.add_event_handler("startup", app_handler.startup)
