@@ -13,6 +13,7 @@ greenlet = "*"
 asyncpg = "*"
 pydantic = {version = "*", extras = ["email"]}
 bcrypt = "*"
+pyjwt = "*"
 
 [dev-packages]
 
