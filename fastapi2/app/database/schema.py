@@ -5,8 +5,6 @@ from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
 from datetime import datetime
 
-import enum
-
 
 class Base(DeclarativeBase):
     pass
@@ -38,18 +36,6 @@ class BaseMixin:
 
     def __hash__(self):
         return hash(self.id)
-
-
-class Status(enum.Enum):
-    ACTIVE = "active"
-    DELETED = "deleted"
-    BLOCKED = "blocked"
-
-
-class SNSType(enum.Enum):
-    FACEBOOK = "FB"
-    GOOGLE = "G"
-    KAKAO = "K"
 
 
 class User(Base, BaseMixin):
