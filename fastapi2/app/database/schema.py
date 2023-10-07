@@ -1,10 +1,15 @@
-from sqlalchemy import Integer, DateTime, Enum, String, Boolean
+from sqlalchemy import Integer, DateTime, String, Boolean
+from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.sql import func
-from sqlalchemy.orm import Mapped, mapped_column
-
-from database.conn import Base
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
 from datetime import datetime
+
+import enum
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 class BaseMixin:
@@ -35,12 +40,25 @@ class BaseMixin:
         return hash(self.id)
 
 
+class Status(enum.Enum):
+    ACTIVE = "active"
+    DELETED = "deleted"
+    BLOCKED = "blocked"
+
+
+class SNSType(enum.Enum):
+    FACEBOOK = "FB"
+    GOOGLE = "G"
+    KAKAO = "K"
+
+
 class User(Base, BaseMixin):
     __tablename__ = "users"
 
-    # status: Mapped[Enum] = mapped_column(
-    #     Enum("active", "deleted", "blocked"), default="active", name="user_status"
-    # )
+    user_status: Mapped[ENUM] = mapped_column(
+        ENUM("active", "deleted", "blocked", name="user_status"),
+        default="active",
+    )
     email: Mapped[str] = mapped_column(String(length=255), nullable=True)
     pw: Mapped[str] = mapped_column(String(length=2000), nullable=True)
     name: Mapped[str] = mapped_column(String(length=255), nullable=True)
@@ -48,7 +66,8 @@ class User(Base, BaseMixin):
         String(length=20), nullable=True, unique=True
     )
     profile_img: Mapped[str] = mapped_column(String(length=1000), nullable=True)
-    # sns_type: Mapped[Enum] = mapped_column(
-    #     Enum("FB", "G", "K"), nullable=True, name="sns_platform"
-    # )
+    sns_type: Mapped[ENUM] = mapped_column(
+        ENUM("FB", "G", "K", name="sns_type"),
+        nullable=True,
+    )
     marketing_agree: Mapped[bool] = mapped_column(Boolean, nullable=True, default=True)
