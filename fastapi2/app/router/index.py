@@ -4,7 +4,7 @@ from starlette.responses import Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.schema import User
-from database.conn import get_db
+from database.conn import get_async_session
 
 from datetime import datetime
 
@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.get("/")
-async def index(session: AsyncSession = Depends(get_db)):
+async def index(session: AsyncSession = Depends(get_async_session)):
     user = User()
     user.name = "코알라"
     session.add(user)
