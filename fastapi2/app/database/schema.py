@@ -1,10 +1,10 @@
 from sqlalchemy import Integer, DateTime, Enum, String, Boolean
 from sqlalchemy.sql import func
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
+
+from database.conn import Base
 
 from datetime import datetime
-
-Base = declarative_base()
 
 
 class BaseMixin:

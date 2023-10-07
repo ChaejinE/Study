@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from os import path, environ
 
 base_dir = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
@@ -29,17 +29,13 @@ class ProdConfig(Config):
     ALLOW_SITE = ["*"]
 
 
-@dataclass
-class TestConfig(Config):
-    DB_URL: str = "postgresql+asyncpg://postgres:1234@localhost:5432/postgres"
-    TRUSTED_HOSTS = ["*"]
-    ALLOW_SITE = ["*"]
-    TEST_MODE: bool = True
-
-
 def conf():
     """
     사용할 Config를 설정할 수 있게한다.
     """
-    config = dict(prod=ProdConfig, local=LocalConfig, test=TestConfig)
+    config = dict(prod=ProdConfig, local=LocalConfig)
     return config[environ.get("API_ENV", "local")]()
+
+
+config = conf()
+conf_dict = asdict(config)
