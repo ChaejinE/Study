@@ -2,7 +2,7 @@ from sqlalchemy import String, Boolean
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.orm import Mapped, mapped_column
 
-from schema.base import Base, BaseMixin
+from database.schema.base import Base, BaseMixin
 
 
 class User(Base, BaseMixin):
