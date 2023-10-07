@@ -3,7 +3,7 @@ from starlette.responses import Response
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database.schema import User
+from database.schema.users import User
 from database.conn import get_async_session
 
 from datetime import datetime

@@ -1,6 +1,5 @@
 from sqlalchemy import Integer, DateTime, String, Boolean
 from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
 from datetime import datetime

@@ -1,5 +1,5 @@
-from database.conn import engine, async_session, AsyncSession
-from database.schema import Base
+from database.conn import engine
+from database.schema.users import Base
 
 import logging
 
