@@ -37,7 +37,7 @@ class UserToken(BaseModel):
     sns_type: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserMe(BaseModel):
@@ -49,4 +49,4 @@ class UserMe(BaseModel):
     sns_type: str = None
 
     class config:
-        orm_mode = True
+        from_attributes = True

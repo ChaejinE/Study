@@ -1,5 +1,6 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from os import path, environ
+from typing import List
 
 base_dir = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
 
@@ -18,15 +19,15 @@ class Config:
 
 @dataclass
 class LocalConfig(Config):
-    TRUSTED_HOSTS = ["*"]
-    ALLOW_SITE = ["*"]
+    TRUSTED_HOSTS: List[str] = field(default_factory=lambda: ["*"])
+    ALLOW_SITE: List[str] = field(default_factory=lambda: ["*"])
     DEBUG: bool = True
 
 
 @dataclass
 class ProdConfig(Config):
-    TRUSTED_HOSTS = ["*"]
-    ALLOW_SITE = ["*"]
+    TRUSTED_HOSTS: List[str] = field(default_factory=lambda: ["*"])
+    ALLOW_SITE: List[str] = field(default_factory=lambda: ["*"])
 
 
 def conf():
