@@ -24,6 +24,9 @@ def create_main() -> FastAPI:
     app.add_event_handler("shutdown", app_handler.shutdown)
 
     # add middleware
+    """
+    프로그램은 스택구조이므로 TrustedhostMiddleware -> CORS -> AccessControl 순으로 동작한다.
+    """
     app.add_middleware(
         AccessControl,
         except_path_list=EXCEPT_PATH_LIST,
