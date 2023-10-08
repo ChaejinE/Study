@@ -4,14 +4,12 @@ from starlette.responses import JSONResponse
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.consts import JWT_SECRET, JWT_ALGORITHM
 from database.conn import get_async_session
 from database.schema.users import User
-from model.users import SnsType, Token, UserToken, UserRegister
-from router.utils import is_email_exist
+from model.users import SnsType, Token, UserRegister
+from router.utils import is_email_exist, create_jwt_token, return_auth_token
 
 import bcrypt
-import jwt
 
 router = APIRouter(prefix="/auth")
 
@@ -23,8 +21,7 @@ async def register(
     session: AsyncSession = Depends(get_async_session),
 ):
     if sns_type == SnsType.email:
-        get_email = await User.get(email=reg_info.email)
-        is_exist = True if get_email else False
+        is_exist = await is_email_exist(email=reg_info.email)
         if not reg_info.email or not reg_info.pw:
             return JSONResponse(
                 status_code=400, content=dict(msg="Email and PW must be provided'")
@@ -38,8 +35,32 @@ async def register(
         new_user = await User.create(
             session, auto_commit=True, pw=hash_pw, email=reg_info.email
         )
-        token = UserToken.model_validate(new_user, from_attributes=True).model_dump()
-        token = jwt.encode(token, JWT_SECRET, algorithm=JWT_ALGORITHM)
-        token = dict(Authorization=f"Bearer {token}")
+        token = await create_jwt_token(new_user)
+        token = await return_auth_token(token)
+        return token
+    return JSONResponse(status_code=400, content=dict(msg="NOT_SUPPORTED"))
+
+
+@router.post("/login/{sns_type}", status_code=200, response_model=Token)
+async def login(sns_type: SnsType, user_info: UserRegister):
+    if sns_type == SnsType.email:
+        if not user_info.email or not user_info.pw:
+            return JSONResponse(
+                status_code=400, content=dict(msg="Email and PW must be provided")
+            )
+
+        is_exist = await is_email_exist(user_info.email)
+        if not is_exist:
+            return JSONResponse(status_code=400, content=dict(msg="NO_MATCH_USER"))
+
+        user = await User.get(email=user_info.email)
+        is_verified = bcrypt.checkpw(
+            user_info.pw.encode("utf-8"), user.pw.encode("utf-8")
+        )
+        if not is_verified:
+            return JSONResponse(status_code=400, content=dict(msg="NO_MATCH_USER"))
+
+        token = await create_jwt_token(user)
+        token = await return_auth_token(token)
         return token
     return JSONResponse(status_code=400, content=dict(msg="NOT_SUPPORTED"))
