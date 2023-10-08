@@ -60,6 +60,7 @@ class BaseMixin:
         query = select(cls)
 
         if not session:
+            # session이 여러개 열리는걸까?
             session = async_session()
 
         for key, val in kwargs.items():
