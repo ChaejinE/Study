@@ -68,7 +68,7 @@ class BaseMixin:
             query = query.filter(col == val)
 
         result = await session.execute(query)
-        result = result.all()
+        result = result.scalars().all()
 
         if len(result) > 1:
             raise Exception(
