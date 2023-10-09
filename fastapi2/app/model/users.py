@@ -48,5 +48,5 @@ class UserMe(BaseModel):
     profile_img: str = None
     sns_type: str = None
 
-    class config:
+    class Config:
         from_attributes = True

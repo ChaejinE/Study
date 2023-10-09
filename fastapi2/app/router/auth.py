@@ -62,5 +62,6 @@ async def login(sns_type: SnsType, user_info: UserRegister):
 
         token = await create_jwt_token(user)
         token = await return_auth_token(token)
+
         return token
     return JSONResponse(status_code=400, content=dict(msg="NOT_SUPPORTED"))

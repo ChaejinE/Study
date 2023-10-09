@@ -1,23 +1,29 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from fastapi.security import APIKeyHeader
 
 from starlette.middleware.cors import CORSMiddleware
 
 from common.config import conf_dict
 from common.consts import EXCEPT_PATH_LIST, EXCEPT_PATH_REGEX
-from router import index, auth
+from router import index, auth, users
 from event import app_handler
 from middlewares.trusted_hosts import TrustedHostMiddleware
 from middlewares.token_validator import AccessControl
 
 import uvicorn
 
+API_KEY_HEADER = APIKeyHeader(name="Authorization", auto_error=False)
 
-def create_main() -> FastAPI:
+
+def create_app() -> FastAPI:
     app = FastAPI()
 
     # add router
     app.include_router(index.router)
-    app.include_router(auth.router)
+    app.include_router(auth.router, prefix="/api")
+    app.include_router(
+        users.router, prefix="/api", dependencies=[Depends(API_KEY_HEADER)]
+    )
 
     # add app event
     app.add_event_handler("startup", app_handler.startup)
@@ -48,8 +54,8 @@ def create_main() -> FastAPI:
     return app
 
 
-app = create_main()
+app = create_app()
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)

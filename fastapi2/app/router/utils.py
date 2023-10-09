@@ -19,5 +19,5 @@ async def create_jwt_token(user_obj: User) -> dict:
     return token
 
 
-async def return_auth_token(jwt_token):
+async def return_auth_token(jwt_token: str) -> dict:
     return dict(Authorization=f"Bearer {jwt_token}")

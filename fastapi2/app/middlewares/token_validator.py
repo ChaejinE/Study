@@ -4,6 +4,8 @@ from starlette.responses import JSONResponse
 from starlette.datastructures import Headers
 
 from common import consts
+from exception import api as apiEx
+from model.users import UserToken
 from middlewares.utils import D
 
 import typing
@@ -46,37 +48,38 @@ class AccessControl:
             await self.url_pattern_check(request.url.path, self._except_path_regex)
             or request.url.path in self._except_path_list
         ):
-            return await self._app(scope, receive, send)
+            await self._app(scope, receive, send)
 
-        if request.url.path.startswith("/api"):
-            if "Authorization" in request.headers.keys():
-                request.state.user = await self.token_decode(
-                    request.cookies.get("Authorization")
+        try:
+            if request.url.path.startswith("/api"):
+                if "Authorization" in request.headers.keys():
+                    token_info = await self.token_decode(
+                        request.headers.get("Authorization")
+                    )
+                    request.state.user = UserToken(**token_info)
+                    # Token 없음
+                elif "Authorization" not in request.headers.keys():
+                    raise apiEx.NotAuthorized()
+            else:
+                # api가 아니라 template 요청 (Server side job) 인 경우
+                print("내가만든쿠키: ", request.cookies)
+                # request.cookies["Authorization"] = "Bearer "
+
+                if "Authorization" not in request.cookies.keys():
+                    raise apiEx.NotAuthorized()
+
+                token_info = await self.token_decode(
+                    access_token=request.cookies.get("Authorization")
                 )
-                # Token 없음
-            elif "Authorization" not in request.headers.keys():
-                response = JSONResponse(
-                    status_code=401, content=dict(msg="AUTHORIZATION_REQUIRED")
-                )
-                return await response(scope, receive, send)
-        else:
-            # api가 아니라 template 요청 (Server side job) 인 경우
-            print("내가만든쿠키: ", request.cookies)
-            # request.cookies["Authorization"] = "Bearer "
+                request.state.user = UserToken(**token_info)
 
-            if "Authorization" not in request.cookies.keys():
-                response = JSONResponse(
-                    status_code=401, content=dict(msg="AUTHORIZATION_REQUIRED")
-                )
-                return await response(scope, receive, send)
+            request.state.req_time = D.datetime()
+            res = await self._app(scope, receive, send)
 
-            request.state.user = await self.token_decode(
-                access_token=request.cookies.get("Authorization")
-            )
+        except apiEx.APIException as e:
+            res = await self.exception_handler(e)
+            res = await res(scope, receive, send)
 
-        request.state.req_time = D.datetime()
-
-        res = await self.app(scope, receive, send)
         return res
 
     @staticmethod
@@ -97,3 +100,14 @@ class AccessControl:
             print(e)
 
         return payload
+
+    @staticmethod
+    async def exception_handler(error: apiEx.APIException):
+        error_dict = dict(
+            status=error.status_code,
+            msg=error.msg,
+            detail=error.detail,
+            code=error.code,
+        )
+        res = JSONResponse(status_code=error.status_code, content=error_dict)
+        return res
