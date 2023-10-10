@@ -1,113 +1,111 @@
 from starlette.types import ASGIApp, Scope, Receive, Send
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-from starlette.datastructures import Headers
 
 from common import consts
 from exception import api as apiEx
+from middlewares.utils import api_logger
 from model.users import UserToken
 from middlewares.utils import D
 
-import typing
 import time
 import re
 import jwt
 
 
-class AccessControl:
-    def __init__(
-        self,
-        app: ASGIApp,
-        except_path_list: typing.Sequence[str] = None,
-        except_path_regex: str = None,
-    ) -> None:
-        if except_path_list is None:
-            except_path_list = ["*"]
+async def access_control(request: Request, call_next) -> None:
+    request.state.req_time = D.datetime()
+    request.state.start = time.time()
+    request.state.inpect = None  # Recommand Sentry
+    request.state.user = None
+    ip = (
+        request.headers["x-forwarded-for"]
+        if "x-forwarded-for" in request.headers.keys()
+        else request.client.host
+    )
+    request.state.ip = ip.split(",")[0] if "," in ip else ip
+    headers = request.headers
+    cookies = request.cookies
+    url = request.url.path
 
-        self._app = app
-        self._except_path_list = except_path_list
-        self._except_path_regex = except_path_regex
+    request.state.is_admin_access = None
+    # AWS, LoadBalancer
+    # ip_from = (
+    #     request.headers["x-forwarded-for"]
+    #     if "x-forwarded-for" in request.headers.keys()
+    #     else None
+    # )
 
-    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        request = Request(scope=scope)
-        headers = Headers(scope=scope)
-        print(f"request: {request}, headers: {headers}")
+    if (
+        await url_pattern_check(url, consts.EXCEPT_PATH_LIST)
+        or url in consts.EXCEPT_PATH_LIST
+    ):
+        response = await call_next(request)
+        if url != "/":
+            await api_logger(request=request, response=response)
+        return response
 
-        request.state.start = time.time()
-        request.state.inpect = None  # Recommand Sentry
-        request.state.user = None
-        request.state.is_admin_access = None
-        # AWS, LoadBalancer
-        # ip_from = (
-        #     request.headers["x-forwarded-for"]
-        #     if "x-forwarded-for" in request.headers.keys()
-        #     else None
-        # )
-
-        if (
-            await self.url_pattern_check(request.url.path, self._except_path_regex)
-            or request.url.path in self._except_path_list
-        ):
-            await self._app(scope, receive, send)
-
-        try:
-            if request.url.path.startswith("/api"):
-                if "Authorization" in request.headers.keys():
-                    token_info = await self.token_decode(
-                        request.headers.get("Authorization")
-                    )
-                    request.state.user = UserToken(**token_info)
-                    # Token 없음
-                elif "Authorization" not in request.headers.keys():
-                    raise apiEx.NotAuthorized()
-            else:
-                # api가 아니라 template 요청 (Server side job) 인 경우
-                print("내가만든쿠키: ", request.cookies)
-                # request.cookies["Authorization"] = "Bearer "
-
-                if "Authorization" not in request.cookies.keys():
-                    raise apiEx.NotAuthorized()
-
-                token_info = await self.token_decode(
-                    access_token=request.cookies.get("Authorization")
-                )
+    try:
+        if url.startswith("/api"):
+            if "Authorization" in headers.keys():
+                token_info = await token_decode(headers.get("Authorization"))
                 request.state.user = UserToken(**token_info)
+                # Token 없음
+            elif "Authorization" not in headers.keys():
+                raise apiEx.NotAuthorized()
+        else:
+            # api가 아니라 template 요청 (Server side job) 인 경우
+            print("내가만든쿠키: ", cookies)
+            # request.cookies["Authorization"] = "Bearer "
 
-            request.state.req_time = D.datetime()
-            res = await self._app(scope, receive, send)
+            if "Authorization" not in cookies.keys():
+                raise apiEx.NotAuthorized()
 
-        except apiEx.APIException as e:
-            res = await self.exception_handler(e)
-            res = await res(scope, receive, send)
+            token_info = await token_decode(access_token=cookies.get("Authorization"))
+            request.state.user = UserToken(**token_info)
 
-        return res
+        response = await call_next(request)
+        await api_logger(request=request, response=response)
 
-    @staticmethod
-    async def url_pattern_check(path, pattern):
-        result = re.match(pattern, path)
-        if result:
-            return True
-        return False
-
-    @staticmethod
-    async def token_decode(access_token):
-        try:
-            access_token = access_token.replace("Bearer ", "")
-            payload = jwt.decode(
-                access_token, key=consts.JWT_SECRET, algorithms=[consts.JWT_ALGORITHM]
-            )
-        except jwt.PyJWTError as e:
-            print(e)
-
-        return payload
-
-    @staticmethod
-    async def exception_handler(error: apiEx.APIException):
+    except apiEx.APIException as e:
+        error = await exception_handler(e)
         error_dict = dict(
             status=error.status_code,
             msg=error.msg,
             detail=error.detail,
             code=error.code,
         )
-        res = JSONResponse(status_code=error.status_code, content=error_dict)
-        return res
+        response = JSONResponse(status_code=error.status_code, content=error_dict)
+        await api_logger(request=request, error=error)
+
+    return response
+
+
+@staticmethod
+async def url_pattern_check(path, pattern):
+    result = re.match(pattern, path)
+    if result:
+        return True
+    return False
+
+
+@staticmethod
+async def token_decode(access_token):
+    try:
+        access_token = access_token.replace("Bearer ", "")
+        payload = jwt.decode(
+            access_token, key=consts.JWT_SECRET, algorithms=[consts.JWT_ALGORITHM]
+        )
+    except jwt.exceptions.ExpiredSignatureError:
+        raise apiEx.TokenExpiredEx()
+    except jwt.exceptions.DecodeError:
+        raise apiEx.TokenDecodeEx()
+
+    return payload
+
+
+@staticmethod
+async def exception_handler(error: Exception):
+    if not isinstance(error, apiEx.APIException):
+        error = apiEx.APIException(ex=error, detail=str(error))
+    return error
