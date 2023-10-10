@@ -5,6 +5,7 @@ from datetime import datetime, date, timedelta
 
 import time
 import json
+import logging
 
 
 class D:
@@ -27,6 +28,9 @@ class D:
     @classmethod
     def date_num(cls, diff: int = 0) -> int:
         return int(cls.date(diff=diff).strftime("%Y%m%d"))
+
+
+logger.setLevel(logging.INFO)
 
 
 async def api_logger(request: Request, response=None, error=None):

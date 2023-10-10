@@ -2,13 +2,14 @@ from fastapi import FastAPI, Depends
 from fastapi.security import APIKeyHeader
 
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from common.config import conf_dict
 from common.consts import EXCEPT_PATH_LIST, EXCEPT_PATH_REGEX
 from router import index, auth, users
 from event import app_handler
 from middlewares.trusted_hosts import TrustedHostMiddleware
-from middlewares.token_validator import AccessControl
+from middlewares.token_validator import access_control
 
 import uvicorn
 
@@ -34,9 +35,8 @@ def create_app() -> FastAPI:
     프로그램은 스택구조이므로 TrustedhostMiddleware -> CORS -> AccessControl 순으로 동작한다.
     """
     app.add_middleware(
-        AccessControl,
-        except_path_list=EXCEPT_PATH_LIST,
-        except_path_regex=EXCEPT_PATH_REGEX,
+        middleware_class=BaseHTTPMiddleware,
+        dispatch=access_control,
     )
     app.add_middleware(
         CORSMiddleware,

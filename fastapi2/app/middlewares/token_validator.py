@@ -16,7 +16,7 @@ import jwt
 async def access_control(request: Request, call_next) -> None:
     request.state.req_time = D.datetime()
     request.state.start = time.time()
-    request.state.inpect = None  # Recommand Sentry
+    request.state.inspect = None  # Recommand Sentry
     request.state.user = None
     ip = (
         request.headers["x-forwarded-for"]
@@ -28,7 +28,6 @@ async def access_control(request: Request, call_next) -> None:
     cookies = request.cookies
     url = request.url.path
 
-    request.state.is_admin_access = None
     # AWS, LoadBalancer
     # ip_from = (
     #     request.headers["x-forwarded-for"]
@@ -37,7 +36,7 @@ async def access_control(request: Request, call_next) -> None:
     # )
 
     if (
-        await url_pattern_check(url, consts.EXCEPT_PATH_LIST)
+        await url_pattern_check(url, consts.EXCEPT_PATH_REGEX)
         or url in consts.EXCEPT_PATH_LIST
     ):
         response = await call_next(request)
@@ -81,7 +80,6 @@ async def access_control(request: Request, call_next) -> None:
     return response
 
 
-@staticmethod
 async def url_pattern_check(path, pattern):
     result = re.match(pattern, path)
     if result:
@@ -89,7 +87,6 @@ async def url_pattern_check(path, pattern):
     return False
 
 
-@staticmethod
 async def token_decode(access_token):
     try:
         access_token = access_token.replace("Bearer ", "")
@@ -104,7 +101,6 @@ async def token_decode(access_token):
     return payload
 
 
-@staticmethod
 async def exception_handler(error: Exception):
     if not isinstance(error, apiEx.APIException):
         error = apiEx.APIException(ex=error, detail=str(error))
