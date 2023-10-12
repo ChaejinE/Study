@@ -5,7 +5,6 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from common.config import conf_dict
-from common.consts import EXCEPT_PATH_LIST, EXCEPT_PATH_REGEX
 from router import index, auth, users
 from event import app_handler
 from middlewares.trusted_hosts import TrustedHostMiddleware
@@ -34,10 +33,7 @@ def create_app() -> FastAPI:
     """
     프로그램은 스택구조이므로 TrustedhostMiddleware -> CORS -> AccessControl 순으로 동작한다.
     """
-    app.add_middleware(
-        middleware_class=BaseHTTPMiddleware,
-        dispatch=access_control,
-    )
+    app.add_middleware(BaseHTTPMiddleware, dispatch=access_control)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=conf_dict["ALLOW_SITE"],

@@ -1,10 +1,10 @@
 from sqlalchemy import select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+
+from database.conn import engine
 
 from datetime import datetime
-
-from database.conn import async_session
 
 
 class Base(DeclarativeBase):
@@ -56,23 +56,30 @@ class BaseMixin:
         return obj
 
     @classmethod
-    async def get(cls, session: AsyncSession = None, **kwargs):
-        query = select(cls)
-
-        if not session:
-            # session이 여러개 열리는걸까?
-            session = async_session()
+    async def get(cls, **kwargs):
+        query = select(cls).limit(10)
 
         for key, val in kwargs.items():
             col = getattr(cls, key)
             query = query.filter(col == val)
 
-        result = await session.execute(query)
-        result = result.scalars().all()
+        # session이 여러개 열리는걸까?
+        result = None
+        print("Query: ", query)
 
-        if len(result) > 1:
-            raise Exception(
-                "Only one row is supposed to be returned, but got more than one."
-            )
-
-        return result[0] if result else result
+        async_session = async_sessionmaker(engine)
+        async with async_session() as session:
+            query_result = await session.execute(query)
+            query_result = query_result.scalars().all()
+            if len(query_result) > 1:
+                raise Exception(
+                    "Only one row is supposed to be returned, but got more than one."
+                )
+            query_result = query_result[0] if query_result else []
+            if query_result:
+                result = cls()
+                for col in query_result.all_columns():
+                    print(col.name, " : ", getattr(query_result, col.name))
+                    setattr(result, col.name, getattr(query_result, col.name))
+        print("result : ", result)
+        return result

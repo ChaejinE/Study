@@ -42,11 +42,11 @@ class UserToken(BaseModel):
 
 class UserMe(BaseModel):
     id: int
-    email: str = None
-    name: str = None
-    phone_number: str = None
-    profile_img: str = None
-    sns_type: str = None
+    email: Optional[str] = None
+    name: Optional[str] = None
+    phone_number: Optional[str] = None
+    profile_img: Optional[str] = None
+    sns_type: Optional[str] = None
 
     class Config:
         from_attributes = True

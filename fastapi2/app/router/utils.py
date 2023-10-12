@@ -12,12 +12,12 @@ async def is_email_exist(email: str) -> bool:
     return True if get_email else False
 
 
-async def create_jwt_token(user_obj: User) -> dict:
+def create_jwt_token(user_obj: User) -> dict:
     token = UserToken.model_validate(user_obj, from_attributes=True).model_dump()
     token = jwt.encode(token, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
     return token
 
 
-async def return_auth_token(jwt_token: str) -> dict:
+def return_auth_token(jwt_token: str) -> dict:
     return dict(Authorization=f"Bearer {jwt_token}")

@@ -1,5 +1,6 @@
 from starlette.types import ASGIApp, Scope, Receive, Send
 from starlette.requests import Request
+from starlette.responses import Response
 from starlette.responses import JSONResponse
 
 from common import consts
@@ -28,29 +29,28 @@ async def access_control(request: Request, call_next) -> None:
     cookies = request.cookies
     url = request.url.path
 
-    # AWS, LoadBalancer
-    # ip_from = (
-    #     request.headers["x-forwarded-for"]
-    #     if "x-forwarded-for" in request.headers.keys()
-    #     else None
-    # )
-
     if (
         await url_pattern_check(url, consts.EXCEPT_PATH_REGEX)
         or url in consts.EXCEPT_PATH_LIST
     ):
+        print("Call My API !!")
         response = await call_next(request)
-        if url != "/":
-            await api_logger(request=request, response=response)
+        print(response)
+        # if url != "/":
+        # await api_logger(request=request, response=response)
         return response
 
     try:
         if url.startswith("/api"):
-            if "Authorization" in headers.keys():
+            print("Authorization" in headers.keys())
+            print("Authorization" not in headers.keys())
+            print(headers.keys())
+            if "authorization" in headers.keys():
                 token_info = await token_decode(headers.get("Authorization"))
+                print(token_info)
                 request.state.user = UserToken(**token_info)
                 # Token 없음
-            elif "Authorization" not in headers.keys():
+            else:
                 raise apiEx.NotAuthorized()
         else:
             # api가 아니라 template 요청 (Server side job) 인 경우
@@ -64,7 +64,7 @@ async def access_control(request: Request, call_next) -> None:
             request.state.user = UserToken(**token_info)
 
         response = await call_next(request)
-        await api_logger(request=request, response=response)
+        # await api_logger(request=request, response=response)
 
     except apiEx.APIException as e:
         error = await exception_handler(e)
@@ -75,7 +75,7 @@ async def access_control(request: Request, call_next) -> None:
             code=error.code,
         )
         response = JSONResponse(status_code=error.status_code, content=error_dict)
-        await api_logger(request=request, error=error)
+        # await api_logger(request=request, error=error)
 
     return response
 

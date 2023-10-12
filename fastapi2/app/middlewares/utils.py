@@ -1,11 +1,14 @@
 from fastapi.logger import logger
 from fastapi.requests import Request
 
+from exception import api as apiEx
 from datetime import datetime, date, timedelta
 
 import time
 import json
 import logging
+import jwt
+import re
 
 
 class D:
@@ -81,3 +84,30 @@ async def api_logger(request: Request, response=None, error=None):
         logger.error(json.dumps(log_dict))
     else:
         logger.info(json.dumps(log_dict))
+
+
+async def url_pattern_check(path, pattern):
+    result = re.match(pattern, path)
+    if result:
+        return True
+    return False
+
+
+async def token_decode(access_token):
+    try:
+        access_token = access_token.replace("Bearer ", "")
+        payload = jwt.decode(
+            access_token, key=consts.JWT_SECRET, algorithms=[consts.JWT_ALGORITHM]
+        )
+    except jwt.exceptions.ExpiredSignatureError:
+        raise apiEx.TokenExpiredEx()
+    except jwt.exceptions.DecodeError:
+        raise apiEx.TokenDecodeEx()
+
+    return payload
+
+
+async def exception_handler(error: Exception):
+    if not isinstance(error, apiEx.APIException):
+        error = apiEx.APIException(ex=error, detail=str(error))
+    return error

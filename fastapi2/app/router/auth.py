@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from starlette.responses import JSONResponse
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.conn import get_async_session
@@ -42,26 +43,34 @@ async def register(
 
 
 @router.post("/login/{sns_type}", status_code=200, response_model=Token)
-async def login(sns_type: SnsType, user_info: UserRegister):
+async def login(
+    sns_type: SnsType,
+    user_info: UserRegister,
+    session: AsyncSession = Depends(get_async_session),
+):
     if sns_type == SnsType.email:
         if not user_info.email or not user_info.pw:
             return JSONResponse(
                 status_code=400, content=dict(msg="Email and PW must be provided")
             )
-
-        is_exist = await is_email_exist(user_info.email)
-        if not is_exist:
+        query = select(User).limit(10)
+        check_dict = {"email": user_info.email}
+        for key, val in check_dict.items():
+            col = getattr(User, key)
+            query = query.filter(col == val)
+        user = None
+        query_result = await session.execute(query)
+        user = query_result.scalars().first()
+        if not user:
             return JSONResponse(status_code=400, content=dict(msg="NO_MATCH_USER"))
 
-        user = await User.get(email=user_info.email)
         is_verified = bcrypt.checkpw(
             user_info.pw.encode("utf-8"), user.pw.encode("utf-8")
         )
         if not is_verified:
             return JSONResponse(status_code=400, content=dict(msg="NO_MATCH_USER"))
 
-        token = await create_jwt_token(user)
-        token = await return_auth_token(token)
-
+        token = create_jwt_token(user)
+        token = return_auth_token(token)
         return token
     return JSONResponse(status_code=400, content=dict(msg="NOT_SUPPORTED"))

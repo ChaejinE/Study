@@ -63,7 +63,7 @@ class TokenDecodeEx(APIException):
         super().__init__(
             status_code=status.HTTP_400_BAD_REQUEST,
             code=f"{status.HTTP_400_BAD_REQUEST}{'2'.zfill(4)}",
-            msg="비정상적인 접급입니다.",
+            msg="비정상적인 접근입니다.",
             detail=f"Token has been compromised",
             ex=ex,
         )
