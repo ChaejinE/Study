@@ -72,3 +72,7 @@ def update_item(item_id: int, item: Item) -> dict:
         dict: {"item_name": item.name, "item_id": item_id}
     """
     return {"item_name": item.name, "item_id": item_id}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port = 8000, reload=True)
