@@ -58,7 +58,7 @@ pipenv --python 3.9
 </p>
 
 - Setup your virtual python environment
-- For Example, if you make main.py(fastapi app), would click it and click more right bottom pannel, is Python environment setting
+- For Example, if you make python file like a ```main.py(fastapi app)```, would click it and click more right bottom pannel, is Python environment setting
 
 ```bash
 pipenv install fastapi
