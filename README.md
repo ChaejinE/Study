@@ -1,0 +1,2 @@
+# FastAPI
+Study for fastapi
