@@ -32,6 +32,11 @@ docker build -f Dockerfile.dev -t ${DEV_IMG}:${DEV_TAG} .
 ```bash
 DEV_IMG=fastapi
 DEV_TAG=dev
-docker run --rm -t -d ${DEV_IMG}:${DEV_TAG}
+LOCAL_PATH=a_example
+CONTINAER_PATH=/usr/src/app
+docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} ${DEV_IMG}:${DEV_TAG}
 ```
 - For develop, run docker environment
+
+![Alt text](images/image.png)
+- We can develop app using vscode
