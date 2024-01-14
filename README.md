@@ -48,10 +48,10 @@ pipenv --python 3.9
 - Setup Python 3.9
 
 ```bash
-pip install fastapi
+pipenv install fastapi
 ```
 
 ```bash
-pip install "uvicorn[standard]"
+pipenv install "uvicorn[standard]"
 ```
 - For production, we can install ```uvicorn```, which is ```ASGI Server```
