@@ -41,11 +41,24 @@ docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} ${DEV_IMG}:${DEV_TAG}
 
 - We can delete or stop docker environment
 
+<p align="center">
+    <img width=800 height=300 src="images/extension_pack.png">
+</p>
+
+- Install Python Extension Pack
+
 ## Installation FastAPI
 ```bash
 pipenv --python 3.9
 ```
 - Setup Python 3.9
+
+<p align="center">
+    <img width=800 height=300 src="images/python_env.png">
+</p>
+
+- Setup your virtual python environment
+- For Example, if you make main.py(fastapi app), would click it and click more right bottom pannel, is Python environment setting
 
 ```bash
 pipenv install fastapi
