@@ -1,2 +1,5 @@
 # FastAPI
-Study for fastapi
+- For Studying Python Backend
+
+# Reference
+- [FastAPI documentation](https://fastapi.tiangolo.com/ko/)
