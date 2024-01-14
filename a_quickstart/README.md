@@ -20,7 +20,7 @@ uvicorn main:app --reload
 ### Run container
 ```bash
 IMG=fastapi
-TAG=example
+TAG=quickstart
 docker build -t ${IMG}:${TAG} .
 LOCAL_PORT=8000
 CONTAINER_PORT=8000
@@ -34,8 +34,8 @@ docker run --rm -d -p ${LOCAL_PORT}:${CONTAINER_PORT} -v ${LOCAL_PATH}:${CONTATI
 ### Remove container
 ```bash
 IMG=fastapi
-TAG=example
-docker stop example
+TAG=quickstart
+docker stop quickstart
 ```
 - Because of ```--rm```, you can just run ```docker stop```
 
