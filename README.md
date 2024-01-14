@@ -9,7 +9,44 @@
 - FastAPI's Web part is supported ```starlette```
 - FastAPI's data part is supported ```Pydantic```
 
-# Installation
+# Develop Environment
+## docker build
+```bash
+DEV_IMG=fastapi
+DEV_TAG=dev
+docker build -f Dockerfile.dev -t ${DEV_IMG}:${DEV_TAG} .
+```
+
+## docker run
+```bash
+DEV_IMG=fastapi
+DEV_TAG=dev
+LOCAL_PATH=./a_example
+CONTINAER_PATH=/usr/src/app
+docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} ${DEV_IMG}:${DEV_TAG}
+```
+- For develop, run docker environment
+- It is exist shared volume between LOCAL_PATH and CONTAINER_PATH. When you develop on docker, you would check files on LOCAL_PATH in the real-time
+
+## vscode setup and access
+<p align="center">
+    <img src="images/attach.png">
+</p>
+
+- We can develop app using vscode. click and setup open folder to ```/usr/src/app```
+
+<p align="center">
+    <img src="images/delete.png">
+</p>
+
+- We can delete or stop docker environment
+
+## Installation FastAPI
+```bash
+pipenv --python 3.9
+```
+- Setup Python 3.9
+
 ```bash
 pip install fastapi
 ```
@@ -18,25 +55,3 @@ pip install fastapi
 pip install "uvicorn[standard]"
 ```
 - For production, we can install ```uvicorn```, which is ```ASGI Server```
-
-# Docker build
-## Develop
-```bash
-DEV_IMG=fastapi
-DEV_TAG=dev
-docker build -f Dockerfile.dev -t ${DEV_IMG}:${DEV_TAG} .
-```
-
-# Docker run
-## Develop
-```bash
-DEV_IMG=fastapi
-DEV_TAG=dev
-LOCAL_PATH=a_example
-CONTINAER_PATH=/usr/src/app
-docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} ${DEV_IMG}:${DEV_TAG}
-```
-- For develop, run docker environment
-
-![Alt text](images/image.png)
-- We can develop app using vscode
