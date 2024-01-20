@@ -1,3 +1,7 @@
+# Reference
+- https://fastapi.tiangolo.com/tutorial/query-params/
+- https://fastapi.tiangolo.com/tutorial/query-params-str-validations/
+
 # Docker Run
 ```bash
 IMG=fastapi

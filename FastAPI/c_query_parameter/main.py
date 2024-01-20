@@ -34,6 +34,59 @@ async def read_item(skip: int = 0, limit: int = 10) -> Dict:
     return fake_items_db[skip : skip + limit]
 
 
+from fastapi import Query
+from typing_extensions import Annotated
+from typing import Union, List
+
+@app.get("/annotated/")
+async def read_items(q: Annotated[Union[str, None], Query(max_length=50, pattern="^fixedquery$")] = None):
+    """
+    Additional validation
+    It is provided, its length doesn't exceed 50 chracters
+    
+    Annotated can be used to add metadata to your parameters
+    Having a Query(max_length=50), we are telling FastAPI that we want it to extract this value from the query parameters
+    - Validate the data making sure that the max length is 50 chracaters
+    - Show a clear error for the client when the data is not valid
+    
+    Using Annotated is recommended instad of the defulat value in function parameters
+    
+    We can also add regular expressions
+    
+    Above query parameter is not required
+    If you change required, you can add Ellipsis(...) q: Annotated[Uni..] = ...
+    It is used by Pydantic and FastAPI to explcitily declare that a value is required
+    
+    Args:
+        q (Annotated[Union[str, None], Query, optional): _description_. Defaults to 50)]=None.
+
+    Returns:
+        _type_: _description_
+    """
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    
+    return results
+
+@app.get("/annotatedlist/")
+async def read_items(q: Annotated[Union[List[str], None], Query()] = None):
+    """
+    We can declare query parameter for list / multiple values
+    http://localhost:8003/annotatedlist/?q=foo&q=bar
+    
+    If you don't need to check list's element type, you can use just "Union[list, None]"
+    
+    Args:
+        q (Annotated[Union[str, None], Query, optional): _description_. Defaults to 50)]=None.
+
+    Returns:
+        _type_: _description_
+    """
+    query_items = {"q": q}
+    return query_items
+
+
 if __name__ == "__main__":
     import uvicorn
 
