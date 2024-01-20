@@ -112,7 +112,7 @@ from typing_extensions import Annotated
 
 @app.get("/annotated/items/{item_id}")
 async def read_items(
-    item_id: Annotated[int, Path(title="The ID of the item to get", ge=1)]
+    item_id: Annotated[int, Path(title="The ID of the item to get", ge=1)],
 ):
     """
     We can declare some metadata for path parameter
