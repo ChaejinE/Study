@@ -23,11 +23,18 @@ DEV_IMG=fastapi
 DEV_TAG=dev
 LOCAL_PATH=./a_example
 CONTINAER_PATH=/usr/src/app
-docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} ${DEV_IMG}:${DEV_TAG}
+LOCAL_PORT=8000
+CONTAINER_PORT=8000
+docker run --rm -t -d -v ${LOCAL_PATH}:${CONTINAER_PATH} -p ${LOCAL_PORT}:${CONTAINER_PORT} --name ${DEV_TAG} ${DEV_IMG}:${DEV_TAG}
 ```
 - For develop, run docker environment
 - It is exist shared volume between LOCAL_PATH and CONTAINER_PATH. When you develop on docker, you would check files on LOCAL_PATH in the real-time
 
+## docker stop
+```bash
+DEV_TAG=dev
+docker stop ${DEV_TAG}
+```
 ## vscode setup and access
 <p align="center">
     <img src="images/attach.png">
