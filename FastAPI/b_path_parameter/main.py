@@ -106,6 +106,32 @@ async def read_file(file_path: str) -> Dict:
     return {"file_path": file_path}
 
 
+from fastapi import Path
+from typing_extensions import Annotated
+
+
+@app.get("/annotated/items/{item_id}")
+async def read_items(
+    item_id: Annotated[int, Path(title="The ID of the item to get", ge=1)]
+):
+    """
+    We can declare some metadata for path parameter
+    If we use Annotated Class, we don't need to think variables re-order for default value
+    It is very comfortable
+
+    We can declare number constraints through ge inside of Path
+    If we can take advantage of it, we can use many number constraints
+
+    Args:
+        item_id (Annotated[int, Path, optional): _description_. Defaults to "The ID of the item to get")].
+
+    Returns:
+        _type_: _description_
+    """
+    result = {"item_id": item_id}
+    return result
+
+
 if __name__ == "__main__":
     import uvicorn
 

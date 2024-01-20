@@ -1,3 +1,7 @@
+# Refernec
+- https://fastapi.tiangolo.com/tutorial/path-params/
+- https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/
+
 # Docker Run
 ```bash
 IMG=fastapi
