@@ -15,3 +15,10 @@ docker run --rm -d -p ${LOCAL_PORT}:${CONTAINER_PORT} -v ${LOCAL_PATH}:${CONTATI
 TAG=pathparamter
 docker stop ${TAG}
 ```
+
+# Docker Delete Image for you disk
+```bash
+IMG=fastapi
+TAG=queryparameter
+docker rmi ${IMG}:${TAG}
+```
