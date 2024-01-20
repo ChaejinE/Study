@@ -17,7 +17,7 @@ DEV_TAG=dev
 docker build -f Dockerfile.dev -t ${DEV_IMG}:${DEV_TAG} .
 ```
 
-## docker run
+## docker run for initial dev environment
 ```bash
 DEV_IMG=fastapi
 DEV_TAG=dev
