@@ -1,5 +1,6 @@
 # Reference
-- https://fastapi.tiangolo.com/tutorial/extra-data-types/
+- https://fastapi.tiangolo.com/tutorial/cookie-params/
+- https://fastapi.tiangolo.com/tutorial/header-params/
 
 # Docker Run
 ```bash
