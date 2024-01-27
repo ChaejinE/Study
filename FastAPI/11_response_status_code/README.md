@@ -1,5 +1,6 @@
 # Reference
 - https://fastapi.tiangolo.com/tutorial/response-status-code/
+- https://fastapi.tiangolo.com/tutorial/handling-errors/
 
 # Docker Run
 ```bash
