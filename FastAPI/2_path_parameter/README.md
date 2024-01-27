@@ -1,6 +1,7 @@
 # Refernec
 - https://fastapi.tiangolo.com/tutorial/path-params/
 - https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/
+- https://fastapi.tiangolo.com/tutorial/path-operation-configuration/
 
 # Docker Run
 ```bash

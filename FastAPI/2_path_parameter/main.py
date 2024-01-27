@@ -132,6 +132,24 @@ async def read_items(
     return result
 
 
+# We can set tags for openapi schema
+class Tags(Enum):
+    items = "items"
+    users = "users"
+
+
+@app.get("/items/", tags=[Tags.items])
+async def get_items():
+    return ["Portal gun", "Plumbus"]
+
+
+# We can set deprecated
+# It is actually showed to difference by openapi schema
+@app.get("/users/", tags=[Tags.users], deprecated=True)
+async def read_users():
+    return ["Rick", "Morty"]
+
+
 if __name__ == "__main__":
     import uvicorn
 
