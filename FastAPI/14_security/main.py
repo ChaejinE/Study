@@ -2,8 +2,18 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI
 from fastapi.security import OAuth2PasswordBearer
+from pydantic import BaseModel
+from typing import Union
 
 app = FastAPI()
+"""
+OAuth2 was designed so that the backend or API could be independent of server that autenticate he user
+But FastAPI Application will handle the API and authenticatation. it is "password flow" that is one of many OAuth2 ways
+1. Send username, password in Frontend
+2. Check username, password and Response with token that will be expired after some time in API
+3. Save temporarily token in Frontend and user is moved other section. Front end also need to fecth some more data from API
+so that token will be used for authorization (Bearer <token>)
+"""
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -26,6 +36,29 @@ async def read_items(token: Annotated[str, Depends(oauth2_scheme)]):
         _type_: _description_
     """
     return {"token": token}
+
+
+class User(BaseModel):
+    username: str
+    email: Union[str, None] = None
+    full_name: Union[str, None] = None
+    disabled: Union[bool, None] = None
+
+
+def fake_decode_token(token):
+    return User(
+        username=token + "fakedecoded", email="john@example.com", full_name="John Doe"
+    )
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
+    return user
+
+
+@app.get("/users/me")
+async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
+    return current_user
 
 
 if __name__ == "__main__":
