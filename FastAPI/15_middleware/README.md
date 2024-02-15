@@ -1,5 +1,6 @@
 # Reference
 - https://fastapi.tiangolo.com/tutorial/middleware/
+- https://fastapi.tiangolo.com/tutorial/cors/
 
 # Docker Run
 ```bash
