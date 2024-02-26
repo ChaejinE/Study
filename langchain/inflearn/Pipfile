@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 langchain = "*"
 langserve = {extras = ["all"], version = "*"}
+openai = "*"
+black = "*"
+langchain-openai = "*"
 
 [dev-packages]
 
