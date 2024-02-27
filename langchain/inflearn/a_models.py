@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 
 import os
 
-os.environ.setdefault("OPENAI_API_KEY","")
+os.environ.setdefault("OPENAI_API_KEY", "")
 llm = OpenAI()
 chat_model = ChatOpenAI()
 
