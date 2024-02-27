@@ -7,3 +7,6 @@ pipenv install kubeflow-katib
 ```bash
 pipenv shell
 ```
+
+# Reference
+- https://www.kubeflow.org/docs/components/katib/overview/
