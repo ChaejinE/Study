@@ -109,5 +109,5 @@ experiment = V1beta1Experiment(
 )
 
 kclient = KatibClient()
-namespace = ""
+namespace = os.getenv("NAMESPACE")
 kclient.create_experiment(experiment, namespace=namespace)
