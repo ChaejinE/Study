@@ -11,6 +11,7 @@ black = "*"
 langchain-openai = "*"
 unstructured = "*"
 pypdf = "*"
+chromadb = "*"
 
 [dev-packages]
 
