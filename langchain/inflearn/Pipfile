@@ -9,6 +9,8 @@ langserve = {extras = ["all"], version = "*"}
 openai = "*"
 black = "*"
 langchain-openai = "*"
+unstructured = "*"
+pypdf = "*"
 
 [dev-packages]
 
