@@ -11,6 +11,8 @@ from kubeflow.katib import (
 )
 from kubernetes.client import V1ObjectMeta
 
+import os
+
 # Objective
 _type = "maximize"
 goal = 50
@@ -36,8 +38,9 @@ parameters = [
 
 # Trial Template
 ## # Trial Spec
-main_container_name: str = "main-container"
-image: str = "129231402580.dkr.ecr.ap-northeast-1.amazonaws.com/base_image:katib-test"
+main_container_name: str = "real-my-container"
+main_file_name: str = "custom.py"
+image: str = os.getenv("IMG")
 trial_spec = {
     "apiVersion": "batch/v1",
     "kind": "Job",
@@ -51,6 +54,7 @@ trial_spec = {
                         "image": image,
                         "command": ["python"],
                         "args": [
+                            main_file_name,
                             "--x",
                             "${trialParameters.X}",
                             "--y",
@@ -83,9 +87,9 @@ trial_template = V1beta1TrialTemplate(
     trial_spec=trial_spec,
 )
 
-max_trial_count = 1
+max_trial_count = 3
 max_failed_trial_count = 1
-parallel_trial_count = 1
+parallel_trial_count = 2
 experiment_spec = V1beta1ExperimentSpec(
     max_trial_count=max_trial_count,
     max_failed_trial_count=max_failed_trial_count,
@@ -105,5 +109,5 @@ experiment = V1beta1Experiment(
 )
 
 kclient = KatibClient()
-kclient.create_experiment(experiment, namespace="luke")
-kclient.get_logs(name=experiment_name, master=True, follow=True)
+namespace = ""
+kclient.create_experiment(experiment, namespace=namespace)
