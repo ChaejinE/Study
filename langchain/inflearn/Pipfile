@@ -12,6 +12,7 @@ langchain-openai = "*"
 unstructured = "*"
 pypdf = "*"
 chromadb = "*"
+faiss-cpu = "*"
 
 [dev-packages]
 
