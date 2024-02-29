@@ -87,7 +87,7 @@ trial_template = V1beta1TrialTemplate(
 )
 
 max_trial_count = 3
-max_failed_trial_count = 1
+max_failed_trial_count = 3
 parallel_trial_count = 2
 experiment_spec = V1beta1ExperimentSpec(
     max_trial_count=max_trial_count,

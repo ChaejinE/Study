@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: launch-katib-experiment-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2024-02-29T10:37:29.412553',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2024-02-29T11:24:38.433130',
     pipelines.kubeflow.org/pipeline_spec: '{"description": "An example to launch Katib
       Experiment with custom logic", "name": "Launch Katib Experiment"}'}
   labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22}
@@ -26,11 +26,11 @@ spec:
     container:
       args:
       - --experiment-name
-      - katib-example
+      - katib-example-{{ workflow.uid }}
       - --experiment-namespace
-      - luke
+      - '{{ workflow.namespace }}'
       - --experiment-spec
-      - '{"algorithm": {"algorithmName": "grid"}, "maxFailedTrialCount": 1, "maxTrialCount":
+      - '{"algorithm": {"algorithmName": "grid"}, "maxFailedTrialCount": 3, "maxTrialCount":
         3, "objective": {"goal": 50, "objectiveMetricName": "result", "type": "maximize"},
         "parallelTrialCount": 2, "parameters": [{"feasibleSpace": {"max": "50", "min":
         "0"}, "name": "x", "parameterType": "int"}, {"feasibleSpace": {"max": "50",
@@ -40,8 +40,8 @@ spec:
         "Y", "reference": "y"}], "trialSpec": {"apiVersion": "batch/v1", "kind": "Job",
         "spec": {"template": {"metadata": {"annotations": {"sidecar.istio.io/inject":
         "false"}}, "spec": {"containers": [{"args": ["custom.py", "--x", "${trialParameters.X}",
-        "--y", "${trialParameters.Y}"], "command": ["python"], "image": null, "name":
-        "real-my-container"}], "restartPolicy": "Never"}}}}}}'
+        "--y", "${trialParameters.Y}"], "command": ["python"], "image": "129231402580.dkr.ecr.ap-northeast-1.amazonaws.com/base_image:katib-test",
+        "name": "real-my-container"}], "restartPolicy": "Never"}}}}}}'
       - --experiment-timeout-minutes
       - '60'
       - --delete-after-done
@@ -83,22 +83,24 @@ spec:
           "a93c64b052e810a0d0d0ada3f28a03b3e45e5a3e3bf03272d4bf6c67d5e14bac", "url":
           "https://raw.githubusercontent.com/kubeflow/pipelines/master/components/kubeflow/katib-launcher/component.yaml"}',
         pipelines.kubeflow.org/arguments.parameters: '{"Delete Finished Experiment":
-          "False", "Experiment Name": "katib-example", "Experiment Namespace": "luke",
-          "Experiment Spec": "{\"algorithm\": {\"algorithmName\": \"grid\"}, \"maxFailedTrialCount\":
-          1, \"maxTrialCount\": 3, \"objective\": {\"goal\": 50, \"objectiveMetricName\":
-          \"result\", \"type\": \"maximize\"}, \"parallelTrialCount\": 2, \"parameters\":
-          [{\"feasibleSpace\": {\"max\": \"50\", \"min\": \"0\"}, \"name\": \"x\",
-          \"parameterType\": \"int\"}, {\"feasibleSpace\": {\"max\": \"50\", \"min\":
-          \"0\"}, \"name\": \"y\", \"parameterType\": \"int\"}], \"trialTemplate\":
-          {\"primaryContainerName\": \"real-my-container\", \"retain\": true, \"trialParameters\":
-          [{\"description\": \"argument 1\", \"name\": \"X\", \"reference\": \"x\"},
-          {\"description\": \"argument 2\", \"name\": \"Y\", \"reference\": \"y\"}],
-          \"trialSpec\": {\"apiVersion\": \"batch/v1\", \"kind\": \"Job\", \"spec\":
-          {\"template\": {\"metadata\": {\"annotations\": {\"sidecar.istio.io/inject\":
-          \"false\"}}, \"spec\": {\"containers\": [{\"args\": [\"custom.py\", \"--x\",
-          \"${trialParameters.X}\", \"--y\", \"${trialParameters.Y}\"], \"command\":
-          [\"python\"], \"image\": null, \"name\": \"real-my-container\"}], \"restartPolicy\":
-          \"Never\"}}}}}}", "Experiment Timeout Minutes": "60"}'}
+          "False", "Experiment Name": "katib-example-{{ workflow.uid }}", "Experiment
+          Namespace": "{{ workflow.namespace }}", "Experiment Spec": "{\"algorithm\":
+          {\"algorithmName\": \"grid\"}, \"maxFailedTrialCount\": 3, \"maxTrialCount\":
+          3, \"objective\": {\"goal\": 50, \"objectiveMetricName\": \"result\", \"type\":
+          \"maximize\"}, \"parallelTrialCount\": 2, \"parameters\": [{\"feasibleSpace\":
+          {\"max\": \"50\", \"min\": \"0\"}, \"name\": \"x\", \"parameterType\": \"int\"},
+          {\"feasibleSpace\": {\"max\": \"50\", \"min\": \"0\"}, \"name\": \"y\",
+          \"parameterType\": \"int\"}], \"trialTemplate\": {\"primaryContainerName\":
+          \"real-my-container\", \"retain\": true, \"trialParameters\": [{\"description\":
+          \"argument 1\", \"name\": \"X\", \"reference\": \"x\"}, {\"description\":
+          \"argument 2\", \"name\": \"Y\", \"reference\": \"y\"}], \"trialSpec\":
+          {\"apiVersion\": \"batch/v1\", \"kind\": \"Job\", \"spec\": {\"template\":
+          {\"metadata\": {\"annotations\": {\"sidecar.istio.io/inject\": \"false\"}},
+          \"spec\": {\"containers\": [{\"args\": [\"custom.py\", \"--x\", \"${trialParameters.X}\",
+          \"--y\", \"${trialParameters.Y}\"], \"command\": [\"python\"], \"image\":
+          \"129231402580.dkr.ecr.ap-northeast-1.amazonaws.com/base_image:katib-test\",
+          \"name\": \"real-my-container\"}], \"restartPolicy\": \"Never\"}}}}}}",
+          "Experiment Timeout Minutes": "60"}'}
   - name: launch-katib-experiment
     dag:
       tasks:

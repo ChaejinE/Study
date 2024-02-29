@@ -14,12 +14,11 @@ katib_experiment_launcher_op = components.load_component_from_url(
 )
 def main():
 
-    experiment_namespace = "luke"
     # Katib launcher component.
     # Experiment Spec should be serialized to a valid Kubernetes object.
     op = katib_experiment_launcher_op(
-        experiment_name=experiment_name,
-        experiment_namespace=experiment_namespace,
+        experiment_name=experiment_name + "-{{ workflow.uid }}",
+        experiment_namespace="{{ workflow.namespace }}",
         experiment_spec=ApiClient().sanitize_for_serialization(experiment_spec),
         experiment_timeout_minutes=60,
         delete_finished_experiment=False,
