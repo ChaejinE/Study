@@ -7,7 +7,6 @@ from kubeflow.katib import (
     V1beta1FeasibleSpace,
     V1beta1TrialTemplate,
     V1beta1TrialParameterSpec,
-    KatibClient,
 )
 from kubernetes.client import V1ObjectMeta
 
@@ -107,7 +106,3 @@ experiment = V1beta1Experiment(
     metadata=V1ObjectMeta(name=experiment_name),
     spec=experiment_spec,
 )
-
-kclient = KatibClient()
-namespace = os.getenv("NAMESPACE")
-kclient.create_experiment(experiment, namespace=namespace)
