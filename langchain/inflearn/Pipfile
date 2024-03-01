@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 langchain = "*"
-langserve = {extras = ["all"], version = "*"}
 openai = "*"
 black = "*"
 langchain-openai = "*"
@@ -14,6 +13,7 @@ pypdf = "*"
 chromadb = "*"
 faiss-cpu = "*"
 langchainhub = "*"
+langserve = {extras = ["all"], version = "*"}
 
 [dev-packages]
 
