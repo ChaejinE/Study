@@ -13,6 +13,7 @@ unstructured = "*"
 pypdf = "*"
 chromadb = "*"
 faiss-cpu = "*"
+langchainhub = "*"
 
 [dev-packages]
 
