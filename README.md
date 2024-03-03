@@ -4,6 +4,7 @@
 - This is remote repository for study various subject
 
 # 🔖 Blog
-[![Notion Badge](https://cj-lotto.tistory.com/)]
+[![Tistory's Badge](https://github-readme-tistory-card.vercel.app/api/badge?name=LottoLab&theme=kakao)](https://cj-lotto.tistory.com/)
+
 
 </div>
