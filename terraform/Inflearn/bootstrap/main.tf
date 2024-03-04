@@ -8,20 +8,20 @@ terraform {
 }
 
 resource "local_file" "hello" {
-  filename = var.filename
-  content = "${random_string.random_code.id}"
+  filename        = var.filename
+  content         = random_string.random_code.id
   file_permission = "0777"
 
-  depends_on = [ random_string.random_code ]
+  depends_on = [random_string.random_code]
 }
- 
+
 resource "random_string" "random_code" {
-  length = 5
+  length  = 5
   special = false
-  upper = false
+  upper   = false
 }
 
 output "random_code_output" {
-  value = random_string.random_code.id
+  value       = random_string.random_code.id
   description = "id description test"
 }
