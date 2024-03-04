@@ -37,12 +37,12 @@ data "local_file" "world" {
 
 resource "local_file" "test_count" {
   filename = var.filename_list[count.index]
-  content = "test!!"
-  count = length(var.filename_list)
+  content  = "test!!"
+  count    = length(var.filename_list)
 }
 
 resource "local_file" "test_for_each" {
   filename = each.value
-  content = "test"
+  content  = "test"
   for_each = var.file_set
 }
