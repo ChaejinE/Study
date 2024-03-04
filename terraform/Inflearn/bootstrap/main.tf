@@ -17,7 +17,7 @@ resource "local_file" "hello" {
   lifecycle {
     create_before_destroy = true
   }
-  
+
 }
 
 resource "random_string" "random_code" {
@@ -29,4 +29,20 @@ resource "random_string" "random_code" {
 output "random_code_output" {
   value       = random_string.random_code.id
   description = "id description test"
+}
+
+data "local_file" "world" {
+  filename = "/tmp/word.txt"
+}
+
+resource "local_file" "test_count" {
+  filename = var.filename_list[count.index]
+  content = "test!!"
+  count = length(var.filename_list)
+}
+
+resource "local_file" "test_for_each" {
+  filename = each.value
+  content = "test"
+  for_each = var.file_set
 }
