@@ -13,6 +13,11 @@ resource "local_file" "hello" {
   file_permission = "0777"
 
   depends_on = [random_string.random_code]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+  
 }
 
 resource "random_string" "random_code" {
