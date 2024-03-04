@@ -9,8 +9,11 @@ from kubeflow.katib import (
     V1beta1TrialTemplate,
     V1beta1TrialParameterSpec,
     KatibClient,
+    ApiClient,
 )
 from kubernetes.client import V1ObjectMeta
+from kfp import components
+from kfp.components._structures import TaskSpec
 
 import logging
 import os
@@ -215,12 +218,30 @@ class KatibInterface:
         logging.info(f"trials parameter name : {name}")
         return name
 
-    def run_experiment(self):
+    def run_experiment(self) -> None:
         self._client.create_experiment(self.experiment)
+
+    def export_component(
+        self, component_name, timeout_min=5, delete_finished_experiment=False
+    ) -> TaskSpec:
+        katib_experiment_launcher_op = components.load_component_from_url(
+            "https://raw.githubusercontent.com/kubeflow/pipelines/master/components/kubeflow/katib-launcher/component.yaml"
+        )
+        op = katib_experiment_launcher_op(
+            experiment_name=component_name + "-{{ workflow.uid }}",
+            experiment_namespace="{{ workflow.namespace }}",
+            experiment_spec=ApiClient().sanitize_for_serialization(
+                self.experiment_spec
+            ),
+            experiment_timeout_minutes=timeout_min,
+            delete_finished_experiment=delete_finished_experiment,
+        )
+
+        return op
 
 
 if __name__ == "__main__":
-    interface = KatibInterface(namespace="")
+    interface = KatibInterface(namespace=os.getenv("NAMESPACE"))
     # Objective
     interface.set_objective(
         objective_type="maximize", goal=50, objective_metric="result"
@@ -252,7 +273,7 @@ if __name__ == "__main__":
     )
     ## Trial spec
     container_name = "experiment-container"
-    ecr_image = ""
+    ecr_image = os.getenv("ECR_IMG")
     interface.set_trial_spec(
         container_name=container_name,
         repository=ecr_image.split(":")[0].split("/")[0],
@@ -277,5 +298,10 @@ if __name__ == "__main__":
     )
     ## Experiment
     interface.set_experiment(experiment_name="oh-my-test")
-    ## Run
-    interface.run_experiment()
+    ## Run for a experiment
+    # interface.run_experiment()
+    ## Export for a component
+    component = interface.export_component(
+        component_name="hypparameter-tunning-component"
+    )
+    logging.info(f"exportred component : {type(component)}")
