@@ -157,11 +157,3 @@ resource "local_file" "test_for_each" {
 }
 ```
 - count, for_each, depends_on, etc...
-
-
-https://216917526503.signin.aws.amazon.com/console
-terraform_user
-znE'G4'Z
-
-AKIATFAKKY7T2X2YNYGK
-U6+SePx1RF88nfNtmiKMmOcV8c6S3em+D2bDsl/a
