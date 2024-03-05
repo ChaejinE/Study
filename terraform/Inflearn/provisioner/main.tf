@@ -48,6 +48,18 @@ resource "aws_instance" "web" {
 
   key_name = aws_key_pair.web.id
 
+  # for aws_instance only
+  # azure: custom_data
+  # gcp: meta_data
+#   user_data = <<-EOF
+#     #! /bin/bash
+#     sudo yum update
+#     sudo yum install nginx -y
+#     sudo service nginx start
+#     sudo chkconfig nginx on
+#     sudo service nginx status
+#   EOF
+
   provisioner "remote-exec" {
     inline = [
       "sudo yum update",
