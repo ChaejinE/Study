@@ -26,7 +26,7 @@ readStream.on("error", (err) => {
 // 메모리를 아낀다
 
 const fs2 = require("fs");
-const writeStream = fs.createWriteStream("./writeStream.txt");
+const writeStream = fs2.createWriteStream("./writeStream.txt");
 
 writeStream.on("finish", () => {
     console.log("Success to write");
@@ -35,3 +35,11 @@ writeStream.on("finish", () => {
 writeStream.write("이 글을 씁니다.\n");
 writeStream.write("한번 더 씁니다.");
 writeStream.end();
+
+const fs3 = require("fs");
+const zlib = require("zlib");
+
+const readStream2 = fs3.createReadStream("./readme.txt", {highWaterMark: 16});
+const zlibStream = zlib.createGzip(); // compression
+const writeStream2 = fs3.createWriteStream("./writeStream2.txt.gz");
+readStream2.pipe(zlibStream).pipe(writeStream2);
