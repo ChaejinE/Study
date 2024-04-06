@@ -1,10 +1,20 @@
 const express = require("express");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+// const multer = require("multer");
 const path = require("path");
 const app = express();
 
 // method(HTTP) + path = Router
 // Middelwares
 app.set("port", process.env.PORT || 8081);
+
+app.use(morgan("combined")); // GET, HOSTNAME 등을 console
+app.use("/", express.static(__dirname)); // req 경로와 real 경로를 다르게 보이게 할 수 있음. 보통 맨위에 위치해야함
+app.use(cookieParser("signed")); // cookie를 자동으로 parsing req.cookies
+app.use(express.json()); // json data json으로
+app.use(express.urlencoded({ extended: true })); // form data 처리
 app.use((req, res, next) => {
     console.log("[Common] There is some requets !")
     next();
@@ -34,6 +44,13 @@ app.use("/about", (req, res, next) => {
 app.get("/", (req, res) => {
     const index_path = path.join(__dirname, "index.html");
     console.log(`Send : ${index_path}`)
+    console.log(req.cookies);
+    const name="test"
+    res.cookie("name", encodeURIComponent(name), {
+        expires: new Date(),
+        httpOnly: true,
+        path: "/'"
+    })
     res.sendFile(index_path);
 })
 
