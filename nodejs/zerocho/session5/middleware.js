@@ -1,3 +1,4 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -7,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 
+dotenv.config();
 app.set("uploadDirName", "uploads")
 try {
     fs.readdirSync(app.get("uploadDirName"));
@@ -36,11 +38,11 @@ app.set("port", process.env.PORT || 8081);
 app.use(morgan("combined")); // GET, HOSTNAME 등을 console
 // Static Middleware
 // req 경로와 real 경로를 다르게 보이게 할 수 있음. 보통 맨위에 위치해야함
-app.use(cookieParser("signed")); // cookie를 자동으로 parsing req.cookies
+app.use(cookieParser(process.env.COOKIE_SECRET)); // cookie를 자동으로 parsing req.cookies
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: "signed",
+    secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
     },
