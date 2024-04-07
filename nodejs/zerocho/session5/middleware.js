@@ -11,12 +11,32 @@ const app = express();
 app.set("port", process.env.PORT || 8081);
 
 app.use(morgan("combined")); // GET, HOSTNAME 등을 console
-app.use("/", express.static(__dirname)); // req 경로와 real 경로를 다르게 보이게 할 수 있음. 보통 맨위에 위치해야함
+// Static Middleware
+// req 경로와 real 경로를 다르게 보이게 할 수 있음. 보통 맨위에 위치해야함
 app.use(cookieParser("signed")); // cookie를 자동으로 parsing req.cookies
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "signed",
+    cookie: {
+        httpOnly: true,
+    },
+    name: "lotto.sid"
+}))
+app.use("/", (req, res, next) => {
+    // middleware expansion
+    if (req.session.id) {
+        express.static(__dirname)(req, res, next);
+    } else {
+        next();
+    }
+});
 app.use(express.json()); // json data json으로
 app.use(express.urlencoded({ extended: true })); // form data 처리
 app.use((req, res, next) => {
     console.log("[Common] There is some requets !")
+    req.session.data = "hello-lotto" // User에 한해서 유지하려할때
+    req.data = "hi-middleware" // 다른 미들웨어로 데이터를 보내고 싶을 때
     next();
 }, (req, res, next) => {
     // If error argument pass to next, it will go to error handler
@@ -44,13 +64,9 @@ app.use("/about", (req, res, next) => {
 app.get("/", (req, res) => {
     const index_path = path.join(__dirname, "index.html");
     console.log(`Send : ${index_path}`)
-    console.log(req.cookies);
-    const name="test"
-    res.cookie("name", encodeURIComponent(name), {
-        expires: new Date(),
-        httpOnly: true,
-        path: "/'"
-    })
+    console.log(req.data);
+    console.log(req.session.data);
+    // console.log(req.cookies);
     res.sendFile(index_path);
 })
 
