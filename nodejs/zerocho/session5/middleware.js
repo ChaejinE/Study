@@ -2,9 +2,32 @@ const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-// const multer = require("multer");
+const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const app = express();
+
+app.set("uploadDirName", "uploads")
+try {
+    fs.readdirSync(app.get("uploadDirName"));
+} catch (err) {
+    console.log(`${err}\nSo Create directory`);
+    fs.mkdirSync(app.get("uploadDirName"));
+}
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            // The second argument is operated when it is success
+            done(null, app.get("uploadDirName"));
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname);
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+        },
+    }),
+    limits: {fileSize: 5 * 1024 * 1024},
+})
 
 // method(HTTP) + path = Router
 // Middelwares
@@ -59,7 +82,6 @@ app.use("/about", (req, res, next) => {
     next()
 })
 
-
 // Routers
 app.get("/", (req, res) => {
     const index_path = path.join(__dirname, "index.html");
@@ -68,6 +90,31 @@ app.get("/", (req, res) => {
     console.log(req.session.data);
     // console.log(req.cookies);
     res.sendFile(index_path);
+})
+
+// single
+app.post('/upload', upload.single("image"), (req, res) => {
+    console.log(req.file);
+    res.send("OK")
+})
+
+// multi using multi-part
+app.post('/upload', upload.array("image"), (req, res) => {
+    console.log(req.files);
+    res.send("OK")
+})
+
+// multi using multi-part without file
+app.post('/upload', upload.none(), (req, res) => {
+    console.log(req.body.title)
+    res.send("OK")
+})
+
+// multi using multi form-data
+app.post('/upload', upload.fields({name : "image1"}, {name: "image2"}), (req, res) => {
+    console.log(req.files.image1);
+    console.log(req.files.image2);
+    res.send("OK")
 })
 
 app.get("/about", (req, res) => {
