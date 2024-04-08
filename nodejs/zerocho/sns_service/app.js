@@ -5,11 +5,17 @@ const path = require("path");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
+const passport = require('passport')
+const { sequelize } = require("./models");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
+const authRouter = require("./routes/auth");
+const passportConfig = require("./passport");
+
 
 const app = express();
+passportConfig();
 app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
 nunjucks.configure("views", {
@@ -17,10 +23,18 @@ nunjucks.configure("views", {
     watch: true,
 })
 
+sequelize.sync({ force: false })
+    .then(() => {
+        console.log("Success to connect DB");
+    })
+    .catch((err) => {
+        console.error(err);
+    })
+
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // req.body crated ! from ajax json request
+app.use(express.urlencoded({ extended: false })); // req.body created ! from form-data
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session( {
     resave: false,
@@ -31,7 +45,12 @@ app.use(session( {
         secure: false, // when it use https
     }
 }))
+// middlewares of passort should be on the next of session
+app.use(passport.initialize()); // req.user, req.login, req.isAuthenticated, req.logout created !
+app.use(passport.session()) // connect.sid -> session cookie -> Browser;
+
 app.use("/", pageRouter);
+app.use("/auth", authRouter);
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} there is no router`);
     error.status = 404;
