@@ -1,5 +1,6 @@
-const User = require("../models/user")
-const bcrypt = require("bcrypt"); 
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 exports.join = async (req, res, next) => {
     const { nick, email, password } = req.body;
@@ -19,5 +20,33 @@ exports.join = async (req, res, next) => {
     }
 }
 
-exports.login = () => {};
-exports.logout = () => {};
+exports.login = (req, res, next) => {
+    // Middleware expansion pattern
+    passport.authenticate("local", (authError, user, info) => { // The arguments are passed by Strategy
+        // failServer
+        if (authError) {
+            console.error(authError);
+            return next(authError);
+        }
+        
+        // failLogic
+        if (!user) {
+            return res.redirect(`/?loginError=${info.message}`);
+        }
+        
+        // successLogin
+        return req.login(user, (loginError) => {
+            if (loginError) {
+                console.error(loginError);
+                return next(loginError);
+            }
+            return res.redirect("/");
+        });
+    })(req, res, next);
+};
+
+exports.logout = (req, res, next) => { 
+    req.logout(() => { // remove session cookie from session object
+        res.redirect("/");
+    });
+};
