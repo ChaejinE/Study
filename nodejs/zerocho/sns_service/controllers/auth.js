@@ -21,7 +21,7 @@ exports.join = async (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    // Middleware expansion pattern
+    // Middleware expansion pattern for using arguments like req, res, next
     passport.authenticate("local", (authError, user, info) => { // The arguments are passed by Strategy
         // failServer
         if (authError) {
