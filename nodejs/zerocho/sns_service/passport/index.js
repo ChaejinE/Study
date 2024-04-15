@@ -10,7 +10,19 @@ module.exports = () => {
     });
 
     passport.deserializeUser((id, done) => { // Search info from { sessionCookie : userId } id === userId
-        User.findOne({where: {id}}) // recovery to User Object => req.user
+        User.findOne({
+            where: { id },
+            include: [{
+                model: User,
+                attributes: [ "id", "nick" ],
+                as: "Followers"
+            }, // following
+            {
+                model: User,
+                attributes: [ "id", "nick" ],
+                as: "Followings"
+            }]
+        }) // recovery to User Object => req.user
             .then((user) => done(null, user)) // user === User, at the sametime, req.session is maded
             .catch(err => done(err)); 
     })

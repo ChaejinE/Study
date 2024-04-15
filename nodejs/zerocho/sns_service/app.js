@@ -13,6 +13,7 @@ const pageRouter = require("./routes/page");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
 const passportConfig = require("./passport");
+const userRouter = require("./routes/user");
 
 
 const app = express();
@@ -54,6 +55,7 @@ app.use(passport.session()) // connect.sid -> session cookie -> Browser;
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
+app.use("/user", userRouter);
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} there is no router`);
     error.status = 404;

@@ -7,6 +7,7 @@ exports.afterUploadImage = (req, res) => {
 
 exports.uploadPost = async (req, res, next) => {
     try {
+        console.log("img : ", req.body.url)
         const post = await Post.create({
             content: req.body.content,
             img: req.body.url,
@@ -14,9 +15,18 @@ exports.uploadPost = async (req, res, next) => {
         });
         const hashtags = req.body.content.match(/#[^\s#]*/g);
         if (hashtags) {
-            Hashtag.findOrCreate({});
+            const result = await Promise.all(hashtags.map((tag) => {
+                return Hashtag.findOrCreate({
+                    where: { title: tag.slice(1).toLowerCase() }
+                });
+            }));
+
+            console.log("result", result);
+            await post.addHashtags(result.map(r => r[0]));
         }
-    } catch (err) { 
+
+        res.redirect('/');
+    } catch (error) { 
         console.error(error);
         next(error);
     }

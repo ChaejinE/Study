@@ -6,9 +6,9 @@ const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 router.use((req, res, next) => {
     // res.locals : Shared data between middlewares
     res.locals.user = req.user; // If you are logged in, req.user is exist, else null
-    res.locals.followerCount = 0;
-    res.locals.followingCount = 0;
-    res.locals.followingIdList = [];
+    res.locals.followerCount = req.user?.Followers?.length || 0;
+    res.locals.followingCount = req.user?.Followings?.length || 0;
+    res.locals.followingIdList = req.user?.Followings?.map(f => f.id) || [];
 
     // req.session.data : Shared data between users
     next();
