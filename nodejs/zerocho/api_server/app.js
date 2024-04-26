@@ -33,7 +33,6 @@ sequelize.sync({ force: false })
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/img", express.static(path.join(__dirname, "uploads")));
 app.use(express.json()); // req.body crated ! from ajax json request
 app.use(express.urlencoded({ extended: false })); // req.body created ! from form-data
 app.use(cookieParser(process.env.COOKIE_SECRET));
