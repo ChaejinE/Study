@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 exports.renderLogin = async (req, res, next) => {
     try {
         const user = await User.findOne({
-            where: { id: res.user?.id || null },
+            where: { id: req.user?.id || null },
             include: { model: Domain }
         })
         res.render("login", {
@@ -23,7 +23,7 @@ exports.createDomain = async (req, res, next) => {
             UserId: req.user.id,
             host: req.body.host,
             type: req.body.type,
-            client: uuidv4()
+            clientSecret: uuidv4()
         })
         res.redirect("/");
     } catch (err) {
