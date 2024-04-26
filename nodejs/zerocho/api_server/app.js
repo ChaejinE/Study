@@ -10,7 +10,7 @@ const { sequelize } = require("./models");
 
 dotenv.config();
 const authRouter = require("./routes/auth");
-const indexRouter = require("./require/index");
+const indexRouter = require("./routes/index");
 const passportConfig = require("./passport");
 
 
