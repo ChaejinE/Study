@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { token } = require("morgan");
 
 exports.test = async (req, res, next) => {
     try {
