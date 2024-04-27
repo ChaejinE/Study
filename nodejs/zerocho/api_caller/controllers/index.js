@@ -1,31 +1,44 @@
 const axios = require("axios");
 
-exports.test = async (req, res, next) => {
+const URL = process.env.API_URL;
+axios.defaults.headers.common.origin = process.env.ORIGIN;
+
+const request = async (req, api) => {
     try {
         if (!req.session.jwt) {
-            const tokenResult = await axios.post("http://localhost:8082/v1/token", {
-                clientSecret: process.env.CLIENT_SECRET
+            const tokenResult = await axios.post(`${URL}/token`, {
+                clientSecret: process.env.CLIENT_SECRET,
             });
-            
-            if (tokenResult.data?.code === 200) {
-                req.session.jwt = tokenResult.data.token;
-            } else {
-                // Fail to get token
-                return res.status(tokenResult.data?.code).json(tokenResult.data);
-            }
+            req.session.jwt = tokenResult.data.token;
         }
-
-        const result = await axios.get("http://localhost:8082/v1/test", {
-            headers: {authorization: req.session.jwt }
+        return await axios.get(`${URL}${api}`, {
+            headers: { authorization: req.session.jwt }
         });
+    } catch (err) {
+        if (err.response?.status === 419) {
+            // Expired token case
+            delete req.session.jwt;
+            return request(req, api);
+        }
+        throw err.response;
+    }
+};
 
-        return res.json(result.data);
+exports.getMyPosts = async (req, res, next) => {
+    try {
+        const result = await request(req, "/posts/my");
+        res.json(result.data);
     } catch (err) {
         console.error(err);
-        if (err.response?.status === 419) {
-            // Toekn expired
-            return res.json(err.response.data);
-        }
-        return next(err); // Token forged
+        next(err);
+    }
+}
+exports.searchByHashtag = async (req, res, next) => {
+    try {
+        const result = await request(req, `/posts/hashtag/${encodeURI(req.params.hashtag)}`);
+        res.json(result.data);
+    } catch (err) {
+        console.error(err);
+        next(err);
     }
 }

@@ -41,3 +41,46 @@ exports.createToken = async (req, res) => {
 exports.tokenTest = (req, res) => {
   res.json(res.locals.decoded);
 };
+
+exports.getMyPosts = (req, res) => {
+    Post.findAll({ where: { userId: res.locals.decoded.id }})
+        .then((posts) => {
+            res.json({
+                code: 200,
+                payload: posts
+            });
+        })
+        .catch((err) => {
+            return res.status(500).json({
+                code: 500,
+                message: "Server Error"
+            });
+        })
+}
+
+exports.getPostsByHashtag = async (req, res) => {
+    try {
+        const hashtag = await Hashtag.findOne({
+            where: { title: req.params.title }
+        });
+        if (!hashtag) {
+            return res.status(404).json({
+                code: 404,
+                message: "There is not result"
+            })
+        }
+        const posts = await hashtag.getPosts();
+        if (posts.length === 0) {
+            return res.status(404).json({
+                code: 404,
+                message: "There are not posts"
+            });
+        }
+        return res.json({
+            code: 200,
+            payload: posts,
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
