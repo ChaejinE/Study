@@ -20,7 +20,7 @@ const request = async (req, api) => {
             delete req.session.jwt;
             return request(req, api);
         }
-        throw err.response;
+        return err.response;
     }
 };
 

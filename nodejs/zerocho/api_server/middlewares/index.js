@@ -1,6 +1,8 @@
 // 여러 Router에서 공통으로 사용되는 것들이 이 middleware에 선언된다.
 
 const jwt = require("jsonwebtoken");
+const rateLimit = require("express-rate-limit");
+const { User } = require("../models");
 
 exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -36,4 +38,29 @@ exports.verifyToken = async (req, res, next) => {
             message: "Invalid Token"
         })
     }
+}
+
+exports.apiLimiter = async (req, res, next) => {
+    // middleware expansion pattern for per type
+    let user;
+    if (res.locals.decoded) {
+        user = User.findOne({ where: { id: res.locals.decoded.id }});
+    }
+    rateLimit({
+        windowMs: 60 * 1000,
+        max: user?.type === "preminum" ? 1000 : 10,
+        hanlder(req, res) {
+            res.status(this.statusCode).json({
+                code: this.statusCode,
+                message: "You can request only one at onece"
+            })
+        }
+    })(req, res, next);
+}
+
+exports.deprecated = (req, res) => {
+    res.status(410).json({
+        code: 410,
+        message: "Please Use New Veresion"
+    })
 }
