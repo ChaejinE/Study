@@ -11,6 +11,7 @@ const { sequelize } = require("./models");
 dotenv.config();
 const authRouter = require("./routes/auth");
 const indexRouter = require("./routes/index");
+const v1Router = require("./routes/v1");
 const passportConfig = require("./passport");
 
 
@@ -51,6 +52,7 @@ app.use(passport.session()) // connect.sid -> session cookie -> Browser;
 
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
+app.use("/v1", v1Router);
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} there is no router`);
     error.status = 404;
