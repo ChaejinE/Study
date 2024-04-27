@@ -1,20 +1,20 @@
-const Domain = require("../models/domain");
-const User = require("../models/user");
+const {Domain, User} = require("../models");
 const jwt = require("jsonwebtoken");
 
 exports.createToken = async (req, res) => {
     const { clientSecret } = req.body;
     try {
+        console.log("CS : ", clientSecret);
         const domain = Domain.findOne({
-            where: { clientSecret },
-            include: [{
+            where: { clientSecret: clientSecret },
+            include: {
                 model: User,
                 attributes: ["id", "nick"],
-            }]
-        })
+            }
+        });
 
-        if (!domain) {
-            return res.stats(401).json({
+        if (!domain.Domain || !domain.User) {
+            return res.status(401).json({
                 code: 401,
                 message: "Not registered domain, please register your domain"
             })
