@@ -119,6 +119,8 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
     setTweet(e.target.value);
   }
 
+  const onCancel = () => setEdit(false);
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e?.target;
     const oneKB = 1024;
@@ -164,10 +166,6 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
         setFile(null);
       }
     }
-  }
-
-  const onCancel = () => {
-    setEdit(false);
   }
   
   return(
