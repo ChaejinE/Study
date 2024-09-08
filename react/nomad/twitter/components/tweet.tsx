@@ -150,7 +150,7 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
       }
 
       const docRef = doc(db, "tweets", id);
-      
+
       await updateDoc(docRef, {
         tweet: tweet_,
         photo: photo || null,
@@ -165,6 +165,10 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
       }
     }
   }
+
+  const onCancel = () => {
+    setEdit(false);
+  }
   
   return(
     <Wrapper>
@@ -175,7 +179,7 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
           : 
           <Payload>{tweet_}</Payload>
         }
-        {user?.uid === userId ? <DeleteButton onClick={onDelete}>Delete</DeleteButton> : null}
+        {user?.uid === userId ? <DeleteButton onClick={isEdit ? onCancel : onDelete}>{isEdit ? "Cancel" : "Delete"}</DeleteButton> : null }
         {user?.uid === userId ? <EditButton onClick={onEdit}>{isEdit ? "Save" : "Edit" }</EditButton> : null}
         {isEdit ? <AttachFileButton htmlFor="file-edit">{file ? "Photo added 📌" : "Add photo"}</AttachFileButton> : null}
         {isEdit ? <AttachFileInput onChange={onFileChange} id="file-edit" type="file" accept="image/*" /> : null}
