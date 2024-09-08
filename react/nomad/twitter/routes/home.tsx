@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   grid-template-rows: 1fr 5fr;
 `;
 
-
 export default function Home() {
     return (
       <Wrapper>

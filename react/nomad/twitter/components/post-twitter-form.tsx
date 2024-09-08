@@ -10,7 +10,7 @@ const Form = styled.form`
   gap: 10px;
 `;
 
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   border: 2px solid white;
   padding: 20px;
   border-radius: 20px;
@@ -65,15 +65,15 @@ export default function PostTweetForm() {
   const [file, setFile] = useState<File | null>(null);
 
   const maxTweetLength = 180;
-  const oneKB = 1024;
-  const maxFileSize = oneKB * 1000000;
-
+  
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
   }
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e?.target;
+    const oneKB = 1024;
+    const maxFileSize = oneKB * 1000000;
 
     if (files || files.length === 1) { // We wanna a file so that we just check only one
       const file = files[0];
@@ -98,10 +98,11 @@ export default function PostTweetForm() {
         createdAt: Date.now(),
         username: user.displayName || "Anonymous", 
         userId: user.uid,
+        photo: null
       })
 
       if (file) {
-        const locationRef = ref(storage, `tweets/${user.uid}-${user.displayName}/${doc.id}`);
+        const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`);
         const result = await uploadBytes(locationRef, file);
         const url = await getDownloadURL(result.ref);
         await updateDoc(doc, {
