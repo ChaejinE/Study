@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { ITweet } from "./timeline";
 import { auth, db, storage } from "../src/firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -92,8 +97,7 @@ const AttachFileInput = styled.input`
   display: none;
 `;
 
-
-export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
+export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
   const [isEdit, setEdit] = useState(false);
   const [tweet_, setTweet] = useState(tweet);
   const [file, setFile] = useState<File | null>(null);
@@ -113,11 +117,11 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
-  }
+  };
 
   const onCancel = () => setEdit(false);
 
@@ -126,15 +130,16 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
     const oneKB = 1024;
     const maxFileSize = oneKB * 1000000;
 
-    if (files || files.length === 1) { // We wanna a file so that we just check only one
+    if (files || files.length === 1) {
+      // We wanna a file so that we just check only one
       const file = files[0];
       if (file.size > maxFileSize) {
-        alert("Excceded file size")
+        alert("Excceded file size");
       } else {
         setFile(file);
       }
     }
-  }
+  };
 
   const onEdit = async () => {
     if (!isEdit) {
@@ -156,7 +161,7 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
       await updateDoc(docRef, {
         tweet: tweet_,
         photo: photo || null,
-        createdAt: Date.now()
+        createdAt: Date.now(),
       });
     } catch (e) {
       console.error(e);
@@ -166,25 +171,40 @@ export default function Tweet({userId, username, photo, tweet, id}: ITweet) {
         setFile(null);
       }
     }
-  }
-  
-  return(
+  };
+
+  return (
     <Wrapper>
       <Column>
         <Username>{username}</Username>
-        {isEdit ?
-          <TextArea onChange={onChange} value={tweet_}></TextArea> 
-          : 
+        {isEdit ? (
+          <TextArea onChange={onChange} value={tweet_}></TextArea>
+        ) : (
           <Payload>{tweet_}</Payload>
-        }
-        {user?.uid === userId ? <DeleteButton onClick={isEdit ? onCancel : onDelete}>{isEdit ? "Cancel" : "Delete"}</DeleteButton> : null }
-        {user?.uid === userId ? <EditButton onClick={onEdit}>{isEdit ? "Save" : "Edit" }</EditButton> : null}
-        {isEdit ? <AttachFileButton htmlFor="file-edit">{file ? "Photo added 📌" : "Add photo"}</AttachFileButton> : null}
-        {isEdit ? <AttachFileInput onChange={onFileChange} id="file-edit" type="file" accept="image/*" /> : null}
+        )}
+        {user?.uid === userId ? (
+          <DeleteButton onClick={isEdit ? onCancel : onDelete}>
+            {isEdit ? "Cancel" : "Delete"}
+          </DeleteButton>
+        ) : null}
+        {user?.uid === userId ? (
+          <EditButton onClick={onEdit}>{isEdit ? "Save" : "Edit"}</EditButton>
+        ) : null}
+        {isEdit ? (
+          <AttachFileButton htmlFor="file-edit">
+            {file ? "Photo added 📌" : "Add photo"}
+          </AttachFileButton>
+        ) : null}
+        {isEdit ? (
+          <AttachFileInput
+            onChange={onFileChange}
+            id="file-edit"
+            type="file"
+            accept="image/*"
+          />
+        ) : null}
       </Column>
-      <Column>
-        { photo ? <Photo src={photo} /> : null }
-      </Column> 
+      <Column>{photo ? <Photo src={photo} /> : null}</Column>
     </Wrapper>
   );
 }
