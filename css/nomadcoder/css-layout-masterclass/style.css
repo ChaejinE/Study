@@ -1,0 +1,18 @@
+.father {
+  display: flex;
+  height: 100vh;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  background-color: tomato;
+  color: white;
+  font-size: 36px
+}
