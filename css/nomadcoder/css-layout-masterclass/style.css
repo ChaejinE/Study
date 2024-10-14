@@ -2,17 +2,33 @@
   display: flex;
   height: 100vh;
   flex-direction: row;
-  gap: 10px;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .box {
+  height: 400px;
+  color: white;
+  font-size: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 200px;
-  background-color: tomato;
-  color: white;
-  font-size: 36px
 }
+
+.box:first-child {
+  background-color: tomato;
+  flex-grow: 1;
+  flex-shrink: 3;
+}
+
+.box:nth-child(2) {
+  background-color: orange;
+  flex-grow: 2;
+  flex-shrink: 0;
+}
+
+.box:last-child {
+  background-color: teal;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
