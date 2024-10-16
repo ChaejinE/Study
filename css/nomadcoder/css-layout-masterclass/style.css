@@ -1,26 +1,16 @@
 .father {
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 100px 200px 50px;
+  grid-template-rows: 200px 100px;
+  row-gap: 20px;
+  column-gap: 10px;
 }
 
-.box {
-  height: 400px;
-  color: white;
-  font-size: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.box:first-child {
+.child {
   background-color: tomato;
-  flex: 1 0 500px;
+  display: flex;
+  font-size: 28;
+  color: white;
+  align-items: center;
+  justify-content: center;
 }
-
-.box:last-child {
-  background-color: teal;
-  flex-grow: 1;
-}
-
