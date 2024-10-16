@@ -1,7 +1,7 @@
 .father {
   display: flex;
   height: 100vh;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -16,19 +16,11 @@
 
 .box:first-child {
   background-color: tomato;
-  flex-grow: 1;
-  flex-shrink: 3;
-}
-
-.box:nth-child(2) {
-  background-color: orange;
-  flex-grow: 2;
-  flex-shrink: 0;
+  flex: 1 0 500px;
 }
 
 .box:last-child {
   background-color: teal;
   flex-grow: 1;
-  flex-shrink: 1;
 }
 
