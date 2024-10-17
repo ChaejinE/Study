@@ -1,25 +1,39 @@
-.father {
+body {
+  padding: 0;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  
   display: grid;
-  grid-template-columns: [cucumber] 100px [potato] 200px [banana] 50px [brocoli];
-  grid-template-rows: 200px 100px;
-  row-gap: 20px;
-  column-gap: 10px;
-}
+  height: 100vh;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-areas: 
+    "header header header header"
+    "content content content menu"
+    "footer footer footer footer"; */
 
-.child {
-  background-color: tomato;
-  display: flex;
-  font-size: 28;
-  color: white;
-  align-items: center;
-  justify-content: center;
+  grid-template:  "header header header header" 1fr
+                  "content content content menu" 2fr
+                  "footer footer footer footer" 1fr / 1fr 1fr 1fr 1fr
 }
-
-.child:last-child {
+ 
+header {
   background-color: aqua;
-  grid-column: potato / brocoli;
+  grid-area: header;
 }
 
-.child:first-child {
-  grid-row: 1 / -1;
+section {
+  background-color: tomato;
+  grid-area: content;
+}
+
+aside {
+  background-color: blueviolet;
+  grid-area: menu;
+}
+
+footer {
+  background-color: brown;
+  grid-area: footer;
 }
