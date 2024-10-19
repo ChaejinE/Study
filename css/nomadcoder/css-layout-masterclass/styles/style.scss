@@ -3,24 +3,30 @@ body {
   padding: 60px;
 }
 
-%alert {
+
+@mixin alert($bgColor, $borderColor) {
+  background-color: $bgColor;
   margin: 10px;
   padding: 10px 20px;
   border-radius: 10px;
-  border: 1px dashed black; 
+  border: 1px dashed $borderColor ; 
+  @content;
 }
 
 .success {
-  @extend %alert;
-  background-color: green
+  @include alert(green, blue){
+    font-size: 12px;
+  };
 }
 
 .error {
-  @extend %alert;
-  background-color: tomato
+  @include alert(tomato, white){
+    text-decoration: underline;
+  };
 }
 
 .warning {
-  @extend %alert;
-  background-color: yellow
+  @include alert(yellow, black){
+    text-transform: uppercase; 
+  };
 }
