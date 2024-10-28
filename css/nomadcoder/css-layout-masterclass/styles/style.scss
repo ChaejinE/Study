@@ -1,147 +1,30 @@
-@import "./reset.scss";
+@import "./reset.scss"; 
 
-$bg: #E4E5E9;
-$black: #393E44;
-$red: #E21A00;
-$grey: #CBCFD2;
-$blue: #392AA9;
-$darkGrey: #7f848a;
-$yellow: #edc212;
+$bg: #F0F0F0;
+$accent: #C7C2CC;
+$borderWidth: 2px; 
 
 body {
-  background-color: $black;
-  height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  color: $black;
-  gap: 2px;
-
-  .info {
-    display: grid;
-    gap: 2px;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    .info__hd,
-    .info__space,
-    .info__settings {
-      background-color: $bg;
-    }
-    .info__space {
-      grid-row: 1 / span 2;
-      grid-column: 2 / span 2;
-    }
-    .info__settings {
-      grid-row: 3 / span 2;
-      grid-column: 2 / span 2;
-    }
-  }
-  .info__hd {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    .hd__discs {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      div:first-child {
-        height: 110px;
-        width: 110px;
-        border-radius: 50%;
-        background-color: #393e44;
-      }
-      div:last-child {
-        height: 22px;
-        width: 22px;
-        border-radius: 11px;
-        background-color: $bg;
-        position: absolute;
-      }
-    }
-    .hd__footer {
-      width: 80%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .hd__full {
-        display: flex;
-        align-items: center;
-        gap: 2.5px;
-        span  {
-          height: 5px;
-          width: 5px;
-          border-radius: 2.5px;
-          background-color: $black;
-        };
-      }
-    }
-  }
-  .info__settings {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
-    font-weight: 300;
-    gap: 50px;
+  background-color: black;
+  grid-template-rows: 10fr 10fr 45fr 35fr;
+  grid-template-columns: 0.3fr repeat(4, 1fr);
+  height: 100vh;
+  gap: $borderWidth;
+  div {
+    background-color: $bg;
   }
 
-  .info__space {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 50px;
-
-    .info__space-item {
-      h3 {
-        text-transform: uppercase;
-        font-size: 18px;
-        font-weight: 300;
-      }
-
-      h2 {
-        font-size: 144px;
-      }
-    }
+  .logo {
+     grid-area: span 2 / span 2;
   }
 
-  .stats{
-    display: grid;
-    grid-template-rows: 2fr 1fr 1.5fr 2.5fr 3.5fr;
-    .stats__stat {
-      background-color: red;
-      padding: 20px;
-      color: black;
-      gap: 2px;
-      &:first-child {
-        background-color: $bg;
-      }
-      &:nth-child(2) {
-        background-color: $yellow;
-      }
-      &:nth-child(3) {
-        background-color: $darkGrey;
-      }
-      &:nth-child(4) {
-        background-color: $red;
-        color: white;
-      }
-      &:nth-child(5) {
-        background-color: $blue;
-        color: white;
-      }
-      .stat__info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 22px;
-        font-size: 20px;
-        font-weight: 300;
-        text-transform: uppercase;
-      }
-    }
+  .title {
+    grid-column: span 3;
+  }
+
+  .banner {
+    grid-row: span 2;
+    background-color: black;
   }
 }
