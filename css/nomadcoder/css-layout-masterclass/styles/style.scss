@@ -4,6 +4,15 @@ $bg: #F0F0F0;
 $accent: #C7C2CC;
 $borderWidth: 2px; 
 
+@keyframes slide {
+  0% {
+    transform: translateY(-3000%) rotateZ(90deg);
+  }
+  100% {
+    transform: translateY(calc(0% - 65px)) rotateZ(90deg);;
+  }
+}
+
 body {
   display: grid;
   background-color: black;
@@ -13,18 +22,104 @@ body {
   gap: $borderWidth;
   div {
     background-color: $bg;
+    &:nth-child(11) {
+      grid-column: span 3;
+    }
+    overflow: hidden;
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .logo {
-     grid-area: span 2 / span 2;
+      grid-area: span 2 / span 2;
+      font-size: 98px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
   }
 
   .title {
     grid-column: span 3;
+    font-size: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
   }
 
   .banner {
     grid-row: span 2;
     background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    span {
+      position: absolute;
+      width: max-content;
+      color: white;
+      font-weight: 600;
+      font-size: 26px;
+
+      animation: slide 5s linear infinite;
+    } 
+  }
+
+  .nav-btn {
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+    flex-direction: column;
+    gap: 5px;
+    .nav-btn__name {
+      font-weight: 600;
+      font-size: 24px;
+      .nav-btn__desc {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    .post__title {
+      font-size: 44px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 22px;
+    }
+
+    &.post--big {
+      .post__title {
+        font-size: 248px;
+      }
+    }
+  }
+
+  .featured {
+    background-color: $accent;
+    padding: 50px;
+    display: flex;
+    div {
+      border: $borderWidth solid black;
+      background-color: $bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      h3 {
+        text-align: center;
+        font-size: 48px;
+        font-weight: 600;
+      }
+    }
+
   }
 }
