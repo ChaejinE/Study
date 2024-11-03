@@ -27,6 +27,10 @@ const rotationAnimation = keyframes`
   }
 `;
 
+const Emoji = styled.span`
+  font-size: 36px;
+`;
+
 const Box = styled.div`
   height: 200px;
   width: 200px;
@@ -35,9 +39,8 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // Can be targetting !
-  span {
-    font-size: 36px;
+
+  ${Emoji} {
     &:hover {
       font-size: 70px;
     }
@@ -51,8 +54,9 @@ function App() {
   return (
     <Wrapper>
       <Box>
-        <span>😀</span>
+        <Emoji>😀</Emoji>
       </Box>
+      <Emoji>🏆</Emoji>
     </Wrapper>
   );
 }
