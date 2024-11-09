@@ -4,6 +4,7 @@ import About from "./screens/About";
 import Home from "./screens/Home";
 import NotFound from "./screens/NotFound";
 import ErrorComponent from "./components/ErrorComponent";
+import User from "./screens/users/User";
 
 // This makes the structure of routes could be list
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
         {
           path: "about",
           element: <About />
+        },
+        {
+          path: "users/:userId", // for dynamic param
+          element: <User />
         }
       ],
       errorElement: <NotFound />
