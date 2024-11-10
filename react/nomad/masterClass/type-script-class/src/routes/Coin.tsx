@@ -91,8 +91,8 @@ function Coin() {
   const [loading, setLoading] = useState(true);
   const { coinId } = useParams<CoindParams>();
   const { state } = useLocation<ICoindState>();
-  const [info, setInfo] = useState({});
-  const [priceInfo, setPriceInfo] = useState({});
+  const [info, setInfo] = useState<IInfoData>();
+  const [priceInfo, setPriceInfo] = useState<IPriceData>();
 
   useEffect(() => {
     (async() => {
@@ -106,6 +106,7 @@ function Coin() {
       console.log(priceData)
       setInfo(infoData);
       setPriceInfo(priceData);
+      setLoading(false);
     })();
   }, []);
 
@@ -115,7 +116,7 @@ function Coin() {
         <Title>{state?.name || "Loading.."}</Title>  
       </Header>
       {loading ? 
-        <Loader>Loading...</Loader> : null
+        <Loader>Loading...</Loader> : priceInfo?.quotes.USD.price
       }
     </Container>
   );
