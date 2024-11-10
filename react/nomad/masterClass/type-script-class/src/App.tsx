@@ -66,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
   a {
     /* It don't use underline of the text about a tag  */ 
     text-decoration: none;
+    color: inherit;
   }
   * {
     box-sizing: border-box;
