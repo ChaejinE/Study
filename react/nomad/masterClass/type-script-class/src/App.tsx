@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { ReactQueryDevtools } from "react-query/devtools"; // We can check react query's cache
 
 // For resetting css (https://github.com/zacanger/styled-reset/blob/master/src/index.ts)
 const GlobalStyle = createGlobalStyle`
@@ -76,8 +77,9 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <>
-    <GlobalStyle />
-    <Router />
+      <GlobalStyle />
+      <Router />
+      <ReactQueryDevtools />
     </>
   );
 }
