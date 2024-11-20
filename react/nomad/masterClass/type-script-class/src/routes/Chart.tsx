@@ -4,6 +4,7 @@ import ApexChart from "react-apexcharts";
  
 interface IChart {
     coinId: string;  
+    isDark: boolean;
 }
 
 interface IHistorical {
@@ -17,7 +18,7 @@ interface IHistorical {
     market_cap: number;
 }
 
-function Chart({ coinId }: IChart) {
+function Chart({ coinId, isDark }: IChart) {
     const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId), { refetchInterval: 10000 });
     return (
         <>
@@ -30,7 +31,7 @@ function Chart({ coinId }: IChart) {
               ]}
               options={
                 {
-                  theme: { mode: "dark" },
+                  theme: { mode: isDark ? "dark" : "light" },
                   chart: { height: 300, width: 300, toolbar: { show: false }, background: "transparent"},
                   stroke: { curve: "smooth", width: 3 },
                   grid: { show: false },

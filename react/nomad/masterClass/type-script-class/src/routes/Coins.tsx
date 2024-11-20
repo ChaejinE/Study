@@ -63,7 +63,12 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+  toggleDark: () => void;
+  isDark: boolean;
+}
+
+function Coins({toggleDark}: ICoinsProps) {
   // 1. unique identifier 2. fetch function
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins)
   // because react query keeps data as  a cache, we don't need to see Loading when we go to back
@@ -76,6 +81,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>  
+        <button onClick={toggleDark}>Toggle Mode</button>
       </Header>
       {isLoading  ? 
         <Loader>Loading...</Loader> : 
