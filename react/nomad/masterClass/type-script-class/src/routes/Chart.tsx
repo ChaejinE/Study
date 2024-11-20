@@ -18,7 +18,7 @@ interface IHistorical {
 }
 
 function Chart({ coinId }: IChart) {
-    const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId));
+    const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId), { refetchInterval: 10000 });
     return (
         <>
             { isLoading ? "Loading chart..." : <ApexChart type="line" 
@@ -35,7 +35,10 @@ function Chart({ coinId }: IChart) {
                   stroke: { curve: "smooth", width: 3 },
                   grid: { show: false },
                   yaxis: { show: false },
-                  xaxis: { labels: { show: false }, axisTicks: { show: false }, axisBorder: { show: false } },
+                  xaxis: { labels: { show: false }, axisTicks: { show: false }, axisBorder: { show: false }, categories: data?.map(data => data.time_close), type: "datetime" },
+                  fill: { type: "gradient", gradient: { gradientToColors: ["blue"], stops: [0, 100] } },
+                  colors: ["red"],
+                  tooltip: { y: { formatter: value =>  `$${value.toFixed(3)}` } }
                 }
               } 
               /> 
