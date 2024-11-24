@@ -1,9 +1,4 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Router from "./Router";
-import { ReactQueryDevtools } from "react-query/devtools"; // We can check react query's cache
-import { darkTheme, lightTheme } from './theme';
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./atoms";
+import { createGlobalStyle } from "styled-components";
 
 // For resetting css (https://github.com/zacanger/styled-reset/blob/master/src/index.ts)
 const GlobalStyle = createGlobalStyle`
@@ -78,15 +73,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const isDark = useRecoilValue(isDarkAtom);
-
   return (
     <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <Router />
-        <ReactQueryDevtools />
-      </ThemeProvider>
+      <GlobalStyle />
     </>
   );
 }
