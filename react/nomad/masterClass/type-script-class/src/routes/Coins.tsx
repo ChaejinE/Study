@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -63,16 +65,13 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {
-  toggleDark: () => void;
-  isDark: boolean;
-}
-
-function Coins({toggleDark}: ICoinsProps) {
+function Coins() {
   // 1. unique identifier 2. fetch function
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins)
   // because react query keeps data as  a cache, we don't need to see Loading when we go to back
   // It's very awsome !
+  const setDarkAtom = useSetRecoilState(isDarkAtom); // Setter function of our recoil
+  const toggleDarkAtom = () => setDarkAtom(prev => !prev);
 
   return (
     <Container>
@@ -80,8 +79,8 @@ function Coins({toggleDark}: ICoinsProps) {
         <title>코인</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>  
-        <button onClick={toggleDark}>Toggle Mode</button>
+        <Title>코인</Title>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {isLoading  ? 
         <Loader>Loading...</Loader> : 

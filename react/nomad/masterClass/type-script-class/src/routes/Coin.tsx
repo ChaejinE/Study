@@ -132,11 +132,7 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  isDark: boolean
-}
-
-function Coin({isDark}: ICoinProps) {
+function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -144,6 +140,7 @@ function Coin({isDark}: ICoinProps) {
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId), { refetchInterval: 5000 }); // refetchInterval is consist of ms   
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(["tickers",  coinId], () => fetchCoinTickers(coinId));
   const loading = infoLoading || tickersLoading;
+
   return (
     <Container>
       <Helmet>
@@ -200,7 +197,7 @@ function Coin({isDark}: ICoinProps) {
               <Price />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} isDark={isDark}/>
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>
