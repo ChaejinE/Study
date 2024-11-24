@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import ToDoList from "./ToDoList";
 
 // For resetting css (https://github.com/zacanger/styled-reset/blob/master/src/index.ts)
 const GlobalStyle = createGlobalStyle`
@@ -76,6 +77,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <ToDoList />
     </>
   );
 }
