@@ -6,6 +6,16 @@ function ToDo({ text, category, id }: IToDo) {
     const setToDos = useSetRecoilState(toDoState);
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const {currentTarget: { name }} = e;
+        setToDos((oldTodos) => {
+            const targetIndex = oldTodos.findIndex(toDo => toDo.id === id);
+            const newToDo = { text, id, category: name as IToDo["category"] };
+
+            return [
+                ...oldTodos.slice(0, targetIndex), 
+                newToDo, 
+                ...oldTodos.slice(targetIndex+1)
+            ];
+        })
     };
 
     return (
