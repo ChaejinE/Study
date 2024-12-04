@@ -42,7 +42,18 @@ const Card = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const onDragEnd = ({ destination, source }: DropResult) => {};
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    setToDos((oldTodos) => {
+      if (!destination) return;
+
+      const toDosCopy = [...oldTodos];
+      // Delete item
+      toDosCopy.splice(source.index, 1);
+      // Put item to destination
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      return toDosCopy; // There is some short of shape a little bit
+    });
+  };
 
   // Placeholder makes board-size being fixed
   return (
@@ -53,7 +64,7 @@ function App() {
             {(provided) => (
               <Board ref={provided.innerRef} {...provided.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable key={index} draggableId={toDo} index={index}>
+                  <Draggable key={toDo} draggableId={toDo} index={index}>
                     {(provided) => (
                       <Card
                         ref={provided.innerRef}
