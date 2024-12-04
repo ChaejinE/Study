@@ -6,8 +6,8 @@ import 'styled-components';
 // https://styled-components.com/docs/api#typescript
 declare module 'styled-components' {
   export interface DefaultTheme {
-    textColor: string;
-    bgColor: string;
-    accentColor: string;
+    bgColor:  string;
+    boardColor: string;
+    cardColor: string;
   }
 }

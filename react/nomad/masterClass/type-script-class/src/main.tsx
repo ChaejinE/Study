@@ -66,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Source Sans 3", sans-serif;
     background-color: ${(props) => props.theme.bgColor};
-    color: ${(props) => props.theme.textColor};
+    color: black; 
   }
   a {
     /* It don't use underline of the text about a tag  */ 
