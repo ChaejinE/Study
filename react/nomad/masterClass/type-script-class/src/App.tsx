@@ -24,16 +24,33 @@ const Boards = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    setToDos((oldTodos) => {
-      // if (!destination) return;
-      // const toDosCopy = [...oldTodos];
-      // // Delete item
-      // toDosCopy.splice(source.index, 1);
-      // // Put item to destination
-      // toDosCopy.splice(destination?.index, 0, draggableId);
-      // return toDosCopy; // There is some short of shape a little bit
-    });
+  const onDragEnd = (info: DropResult) => {
+    console.log(info);
+    const { destination, draggableId, source } = info;
+    if (destination?.droppableId === source.droppableId) {
+      // Same Board
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: boardCopy,
+        };
+      });
+    } else if (destination?.droppableId !== source.droppableId) {
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        const destinationBoard = [...allBoards[destination?.droppableId]];
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination?.droppableId]: destinationBoard,
+        };
+      });
+    }
   };
 
   // Placeholder makes board-size being fixed
