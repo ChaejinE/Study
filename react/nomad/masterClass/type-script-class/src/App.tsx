@@ -1,6 +1,12 @@
 import styled from "styled-components";
-import { motion, useMotionValue, Variants } from "motion/react";
-import { useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useTransform,
+  Variants,
+} from "motion/react";
+import { useEffect, useRef } from "react";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -31,12 +37,11 @@ const boxVariants: Variants = {
 
 function App() {
   const x = useMotionValue(0);
-  console.log(x);
-  // If u use right props, u can do anything !
+  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0.1]); // target, input, output => interpolation
+  useMotionValueEvent(potato, "change", (val) => console.log(val));
   return (
     <Wrapper>
-      <button onClick={() => x.set(200)}>click me</button>
-      <Box style={{ x }} drag="x" dragSnapToOrigin />
+      <Box style={{ x, scale: potato }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
