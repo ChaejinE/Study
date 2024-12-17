@@ -2,14 +2,13 @@ import styled from "styled-components";
 import {
   motion,
   useMotionValue,
-  useMotionValueEvent,
+  useScroll,
   useTransform,
   Variants,
 } from "motion/react";
-import { useEffect, useRef } from "react";
 
-const Wrapper = styled.div`
-  height: 100vh;
+const Wrapper = styled(motion.div)`
+  height: 200vh;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -37,11 +36,24 @@ const boxVariants: Variants = {
 
 function App() {
   const x = useMotionValue(0);
-  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0.1]); // target, input, output => interpolation
-  useMotionValueEvent(potato, "change", (val) => console.log(val));
+  const rotate = useTransform(x, [-800, 800], [-360, 360]); // target, input, output => interpolation
+  const gradient = useTransform(
+    x,
+    [-800, 800],
+    [
+      "linear-gradient(135deg, rgb(0, 194, 238), rgb(20, 0, 238))",
+      "linear-gradient(135deg, rgb(0, 238, 48), rgb(238, 238, 0))",
+    ]
+  );
+  const { scrollYProgress } = useScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 5]);
   return (
-    <Wrapper>
-      <Box style={{ x, scale: potato }} drag="x" dragSnapToOrigin />
+    <Wrapper style={{ background: gradient }}>
+      <Box
+        style={{ x, rotateZ: rotate, scale: scale }}
+        drag="x"
+        dragSnapToOrigin
+      />
     </Wrapper>
   );
 }
