@@ -5,13 +5,14 @@ import Search from "./Routes/Search";
 import Header from "./Components/Header";
 
 function App() {
+  // Route order has some issue, so we should put '/' route at the last bottom
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
         <Route path="/tv" element={<Tv />}></Route>
         <Route path="/search" element={<Search />}></Route>
+        <Route path="/" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>
   );
