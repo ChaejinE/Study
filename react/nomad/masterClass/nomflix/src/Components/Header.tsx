@@ -117,7 +117,7 @@ function Header() {
     } else {
       inputAnimation.start({ scaleX: 1 });
     }
-    setSearchOpen((prev) => !prev)
+    setSearchOpen((prev) => !prev);
   };
   useEffect(() => {
     scrollY.on("change", () => {
@@ -128,7 +128,7 @@ function Header() {
       }
 
     });
-  }, [scrollY])
+  }, [scrollY, navAnimation])
 
   return (
     <Nav variants={navVariants} initial={"top"} animate={navAnimation}>
@@ -173,6 +173,7 @@ function Header() {
           </motion.svg>
           <Input
             animate={inputAnimation}
+            initial={{ scaleX: 0 }}
             placeholder="Search for movie or tv show ... "
             transition={{ type: "linear" }}
           />
