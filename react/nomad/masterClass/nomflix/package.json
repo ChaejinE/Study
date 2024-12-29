@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@types/react-motion": "^0.0.40",
+    "@types/react-query": "^1.2.8",
     "motion": "^11.15.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-query": "^3.39.3",
     "react-router-dom": "^7.0.2",
     "recoil": "^0.7.7",
     "styled-components": "^6.1.13"
